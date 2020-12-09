@@ -55,7 +55,7 @@ while(!$done)
 	    }
 	}
 	    $pc++;
-#	    print "inner end $pc: $1 $2 $replc $repl acc: $acc\n";
+	    print "inner end $pc: $1 $2 $replc $repl acc: $acc\n";
     }
 
     print "outer loop:  $repl $acc\n\n";
