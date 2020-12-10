@@ -1,6 +1,8 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
+use strict;
 use Switch;
-@lines = <>;
+use v5.10;
+my @lines = <>;
 my $numlines=$.;
 print "nlines: $numlines\n";
 #print @lines;
@@ -55,11 +57,12 @@ while(!$done)
 	    }
 	}
 	    $pc++;
-	    print "inner end $pc: $1 $2 $replc $repl acc: $acc\n";
+#	    print "inner end $pc: $1 $2 $replc $repl acc: $acc\n";
     }
 
-    print "outer loop:  $repl $acc\n\n";
-if($pc==$numlines) {$done=1;}
+    say "outer loop:  $repl $acc";
+
+    if($pc==$numlines) {$done=1;}
 
 $repl++;
 }
