@@ -52,10 +52,12 @@ print "sum: $sum\n";
 
 sub assignto
 {
+    #tar nbits, maske som streng, memadr, value  som input
+    #går rekrusivt til det ikke er bits igjen å flippe. setter så
+    #mem til verdien. 
     my $ns=$_[0];
     $ns--;
 #    print "a: $ns,$_[1],$_[2],$_[3]\n";
-    #tar nbits, maske som streng, memadr, value  som input
     if ($ns == 0) {
 	my $nm=$_[1];
 	my $orm=oct("0b$nm");
