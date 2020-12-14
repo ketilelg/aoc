@@ -43,7 +43,7 @@ while($change){
 #    printseats( @seats );
     @seats = @{ dclone(\@newseats)};
     print "nseats: \n";
-    printseats( @seats );
+#    printseats( @seats );
     print "occ: $nseats $change\n\n";
 
 }
