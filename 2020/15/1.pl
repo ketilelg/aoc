@@ -2,41 +2,35 @@
 
 @lines = <>;
 
-my %last;
-my %prev;
+my $nrounds=30000000;
+my @last = $nrounds;
+my @prev = $nrounds;
 my $numin=1;
 my $ls;
 
 chomp $lines[0];
 for my $num (split /,/,@lines[0])
 {
-    print "num: $num\n";
     $last{$num}=$numin;
     $prev{$num}=0;
     $ls=$num;
     $numin++;
-
 }
-print "lest: $numin\n";
-for my $round ($numin..30000000)
+
+for my $round ($numin..$nrounds)
 {
-#    print "$round $ls";
+    print "$round $ls\n";
     if ( $prev{$ls} > 0)
     {
-#	print " ja: $ls $prev{$ls} $last{$ls} ";
 	$ls=$last{$ls}-$prev{$ls};
-	$prev{$ls}=$last{$ls};
-	$last{$ls}=$round;
-	#	print " --- $ls $prev{$ls} $last{$ls}\n";
-#	print "$round: $ls\n";
     }
     else
     {
-#	print " nei 0 $prev{$ls} $last{$ls} \n";
+	print "\n";
 	$ls=0;
-	$prev{$ls}=$last{$ls};
-	$last{$ls}=$round;
     }
+    $prev{$ls}=$last{$ls};
+    $last{$ls}=$round;
 }
 
 print "slutt: $ls\n";
