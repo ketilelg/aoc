@@ -6,6 +6,7 @@ use Data::Dumper;
 use strict;
 
 my $offset=10;
+my $iter=0;
 
 my @pdim;
 my @newpdim;
@@ -47,7 +48,7 @@ for my $i (1..6)
 {
 print "x: $x y: $y z: $z w: $w d: $depth h: $height w: $width l:$length\n";
 
-    printit();
+#    printit();
     $numc=0;
 
 for my $wc ($w-1..$z+$length) {
@@ -56,7 +57,7 @@ for my $wc ($w-1..$z+$length) {
 	    for my $xc ($x-1..$x+$width)  {
 
 		my $neigh=numocc($wc,$zc,$yc,$xc);
-#				print "\nw: $zc $yc $xc $neigh\n\n";
+#				print "\nw: $w $zc $yc $xc $neigh\n\n";
 
 		if ($pdim[$wc][$zc][$yc][$xc] eq "#")
 		{
@@ -99,12 +100,12 @@ for my $wc ($w-1..$z+$length) {
     $depth+=2;
     # kopier newpdim til pdim.
     @pdim = @{ dclone(\@newpdim)};
-    print "endloop: numc= $numc\n";
+    print "endloop: numc= $numc iter=$iter\n";
 }
 
 
 sub printit
-    # skriver ut @pdim
+    # skriver ut @pdim. virker ikke for 4d.
 {
     for my $zc ($z-1..$z+$depth) {
 	print "z: $zc\n";
@@ -125,7 +126,7 @@ sub printit
 
 
 sub numocc
-# returnerer antall naboer (i 3 dimensjoner) som er aktive, gitt w,z,y,x som input.
+# returnerer antall naboer (i 4 dimensjoner) som er aktive, gitt w,z,y,x som input.
 {
     my $wp=$_[0];
     my $zp=$_[1];
@@ -145,6 +146,7 @@ sub numocc
 		    {
 			$num++;
 		    }
+		    $iter++;
 		}
 	    }
 	}
