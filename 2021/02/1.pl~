@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+
+my $pos=0;
+my $depth=0;
+
+while(<>)
+{
+    /(\w+)\s+(\w+)/;
+    $com=$1;
+    $val=$2;
+    if($com =~ /forward/) {$pos+=$val;}
+    if($com =~ /down/) {$depth+=$val;}
+    if($com =~ /up/) {$dep-=$val;}
+}
+print "pos: $pos depth: $depth\n";
