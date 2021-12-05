@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+while (<>)
+{
+    /(\d+),(\d+) -> (\d+),(\d+)/;
+    print "linje: $1 $2 $3 $4\n";
+}
