@@ -1,0 +1,5 @@
+#!/usr/bin/perl
+
+@crabs=split",";
+
+print "@crabs";
