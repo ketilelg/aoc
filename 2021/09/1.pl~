@@ -1,0 +1,18 @@
+#!/usr/bbbin/perl
+
+my @map;;
+
+my$line=0;
+while(<>)
+{
+    @map[$line]=split //;
+    
+}
+
+for my $x (0..$#map[0])
+{
+    for my $y (0..$lineno)
+    {
+	print "i: $x $y\n";
+    }
+}
