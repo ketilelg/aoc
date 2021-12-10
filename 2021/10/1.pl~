@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+
+while(<>)
+{
+    print "ytre, linja: -$_-\n";
+    parse $_;    
+}
+
+sub parse
+#parse the line..: 
+{
+    my $str=$_[0];
+#    while (true) #streng igjen
+    {
+#	my $first = substr $str, 0, 1;
+	if ($str =~ /(^[\<\[\(\{]/)
+	{
+	    print "treff, -$0-\n";
+	    #hvis venstre, husk og gå dypere uten denne.
+	    # hvis retur er samme, så er det bra, hvis ikke, skriv ut, regn.
+	}
+
+    #hvis høyre: returner den.
+
+    }
+}
+
