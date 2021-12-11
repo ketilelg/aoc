@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+my @map;
+my $w=0;
+my $h=0;
+while (<>)
+{
+    chomp;
+    $h++;
+    push @map, [split // ];
+}
+
+$h--;
+$w=$#map[0];
+
+print "w: $w, h: $h\n";
