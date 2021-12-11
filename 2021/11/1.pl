@@ -67,7 +67,7 @@ sub gen
 	}
     }
 
-    
+# denne printer kartet:    
 #    for my $y (0..$h-1)
 #    {
 #	print "$y ";
