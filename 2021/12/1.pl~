@@ -1,0 +1,10 @@
+#!/usr/bin/perl
+
+@in=<>;
+
+for my $l (@in)
+{
+    $a,$b=split "," $l;
+
+    print "a: $a b: $b\n";
+}
