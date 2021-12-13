@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+
+my @map;
+my @fid;
+my @fiv;
+my $fs=0;
+my $maxx,$maxy;
+
+while(<>)
+{
+    if (/(\d+),{\d+)/)
+    {
+	$map[$1][$2]=1;
+    }
+    if (/^fold along (\w)={\d+)/)
+    {
+	$fid[$fs]=$1;
+	$fiv[$fs]=$2;
+	$fs++;
+    }
+}
+
+print "$fs\n";
