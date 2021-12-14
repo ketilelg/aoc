@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+
+my $pt = <>;
+
+my %pir;
+
+while (<>)
+{
+    if (/(\w\w) -> (\w)/ )
+    {
+	$pir{$1} = $2;
+	print "r: $1 -> $2\n";
+    }
+}
