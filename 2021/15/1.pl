@@ -3,36 +3,63 @@
 use List::Util qw(min max);
 
 
-my @dmap;
+my @dmap; # risk at point.
+my @rmap; # risk from 0,0
 
 my $w;
-my $line=0;
+my $line=1;
 while(<>)
 {
+    chomp;
     $w=length;
     my @lc=split//;
     for my $c (0..$#lc)
     {
-	$dmap[$line][$c]=$lc[$c];
+	$dmap[$line][$0]=1000000000;
+	$rmap[$line][$0]=1000000000;
+	$dmap[$line][$c+1]=$lc[$c];
+	$rmap[$line][$c+1]=1000000000;
     }
-
+    $dmap[$line][$w+1]=100000000;
+    $rmap[$line][$w+1]=100000000;
+    
     $line++;
 }
-$line--;
-$w--;
-$w--;
-
-for my $y (0..$line)
+for my $x (0..$w+1)
 {
-    for my $x (0..$w)
-    {
-       print "$dmap[$y][$x]";
-    
-    }
-    print "\n";
+    $dmap[0][$x]=100000000;
+    $dmap[$line][$x]=100000000;
+    $rmap[0][$x]=100000000;
+    $rmap[$line][$x]=100000000;
 }
+$line--;
 
-my @rmap; # risk from 0,0
+
+
+
+#$w--;
+#$w--;
+
+#for my $y (0..$line+1)
+#{
+#    for my $x (0..$w+1)
+#    {
+#       print "$dmap[$y][$x]-";
+#    
+#    }
+#    print "\n";
+#}
+
+#for my $y (1..$line)
+#{
+#    for my $x (1..$w)
+#    {
+#       print "$dmap[$y][$x]";
+#    
+#    }
+#    print "\n";
+#}
+
 
 sub rr
 { #recurse, x y, cost, depth as input.
@@ -107,45 +134,37 @@ sub rr
 }
 
 $rmap[0][0]=0;
-rr(0,0,0,200);
+#rr(0,0,0,200);
 
-#iterer, se alltid til v/opp, avhengig av hva som går. 
+#iterer, se rundt. 
 sub naive
 {
-    $rmap[0][0]=0;
-    for my $y (0..$line)
+    my $sum=0;
+    for my $y (1..$line)
     {
-	for my $x (0..$w)
+	for my $x (1..$w)
 	{
-	    if($y > 0)
-	    {
-		if($x>0)
-		{
-		    $rmap[$y][$x] = $dmap[$y][$x] + min($rmap[$y][$x-1],$rmap[$y-1][$x]);
-		}
-		else
-		{
-		    $rmap[$y][$x] = $dmap[$y][$x] + $rmap[$y-1][$x];
-		}
-		
-	    }
-	    else
-	    {
-		if($x>0)
-		{
-		    $rmap[$y][$x] = $dmap[$y][$x] + $rmap[$y][$x-1];
-		}
-	    }
+	    $rmap[$y][$x] = min($rmap[$y][$x],
+				$dmap[$y][$x]+$rmap[$y][$x-1],
+				$dmap[$y][$x]+$rmap[$y][$x+1],
+				$dmap[$y][$x]+$rmap[$y-1][$x],
+				$dmap[$y][$x]+$rmap[$y+1][$x]);
+	    $sum+=$rmap[$y][$x];
 	}
     }
+
+    return $sum;
 }
 
-for my $y (0..$line)
+$rmap[1][1]=0;
+
+my $osum=10000000000000;
+my $sum=0;
+while($osum!=$sum)
 {
-    for my $x (0..$w)
-    {
-       print "$rmap[$y][$x]-";
-    
-    }
-    print "\n";
+    $osum=$sum;
+    $sum=naive;
+#    print "o: $osum s: $sum $rmap[$line][$w]\n";
 }
+
+print "part1: $rmap[$line][$w]\n";
