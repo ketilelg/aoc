@@ -1,0 +1,5 @@
+#!/usr/bin/perl
+
+my @$in=<>;
+
+print "$in\n";
