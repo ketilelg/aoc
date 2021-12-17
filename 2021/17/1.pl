@@ -18,6 +18,7 @@ if ($minx < 0) { $ddx=-1; } else {$ddx=1;}
 
 my $dx=0;
 my $dy=0;
+my $hits=0;
 my $hh=$miny;
 for my $dx (0..abs($maxx))
 {
@@ -33,25 +34,25 @@ for my $dx (0..abs($maxx))
 	    $x+=$mdx;
 	    $y+=$mdy;
 	    if($y>$h){$h=$y;}
-	    print "l: $dx $dy $x $y $h";
+#	    print "l: $dx $dy $x $y $h";
 	    if(($x>=$minx)&&($x<=$maxx)&&($y>=$miny)&&($y<=$maxy))
 	    {
-		print "treff!\n";
+		$hits++;
+#		print "treff!\n";
 		if ($h>$hh)
 		{
 		    $hh=$h;
 		}
-		break;
+		last;
 	    }
-	    print "\n";
+#	    print "\n";
 	    if($mdx>0){$mdx--;}
 	    $mdy--;
 	}
-	print "$dx $dy $mdx $mdy $x $y\n";
+#	print "$dx $dy $mdx $mdy $x $y\n";
     }
 }
 
-print "p1: $hh\n";
+print "p1: $hh\np2: $hits\n";
 
-# part 2 løsning:
-#  ./1.pl input | grep treff | cut -d" " -f 2,3 | sort | uniq | wc -l
+
