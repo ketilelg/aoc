@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+
+my $ls=<>;
+my @lut=split //,$ls;
+my $ls=<>;
+my $line=1;
+while(<>)
+{
+    $w=length;
+    my @lc=split//;
+    for my $c (0..$#lc)
+    {
+        $map[$line][$c+1]=$lc[$c];
+    }
+
+    $line++;
+    
+}
+
+print "@lut, $w, $line\n";
