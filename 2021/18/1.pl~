@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+
+sub reduce
+# tar forkortet streng, rekdypde som input, returnerer streng redusert
+{
+    my $str=$_[0];
+    my $rd=$_[1];
+    print "str: $str rd: $rd\n";
+}
+
+while(<>)
+{
+    my $rstr=reduce($_,0);
+    print "rstr: $rstr\n";
+}
