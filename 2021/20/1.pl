@@ -2,8 +2,9 @@
 
 my $ls=<>;
 my @lut=split //,$ls;
-my $ls=<>;
+my $ls=<>; #skip line
 my $line=1;
+my @map;
 while(<>)
 {
     chomp;
@@ -18,28 +19,82 @@ while(<>)
     
 }
 
-print "$#lut, $w, $line\n";
+my $space=".";
 
-$x=3;
-$y=3;
 
-my $pv=0;
-for my $by($y-1..$y+1)
+sub printmap
 {
-    for my $bx($x-1..$x+1)
+    print "pm: $w, $line space:$space\n";
+    for my $y (0..$line)
     {
-	$pv*=2;
-	if ($map[$by][$bx] eq "#")
+	for my $x (0..$w+1)
 	{
-	    $pv++;
-	    print "#";
+	    print $map[$y][$x];
 	}
-	else
+	print "\n";
+    }
+}    
+
+my $nlit;
+
+sub generation
+{
+    my @nmap;
+    $nlit=0;
+    for my $y(0..$line+1)
+    {
+	for my $x(0..$w+2)
 	{
-	    print ".";
+	    my $pv=0;	
+	    for my $by($y-1..$y+1)
+	    {
+		for my $bx($x-1..$x+1)
+		{
+		    $pv*=2;
+		    if (($by>0) && ($bx>0) && ($by<$line+1) && ($bx<$w+2))
+		    { #innenfor $map
+			if ($map[$by-1][$bx-1] eq "#")
+			{
+			    $pv++;
+			}
+		    }
+		    else
+		    { #utenfor, anse at vi må se på "outer space"
+			if($space eq "#")
+			{
+			    $pv++;
+			}
+		    }
+		}
+
+	    }
+	    $nmap[$y][$x]=$lut[$pv];
+	    if($nmap[$y][$x] eq "#")
+	    {
+		$nlit++;
+	    }
 	}
     }
-    print "\n";
+    $w+=2;
+    $line+=2;
+    @map=@nmap;
+    if($space eq "#") #outer space er enten alle eller ingen..:
+    { #alle på
+	$space=$lut[511];
+    }
+    else
+    { #alle mørke
+	$space=$lut[0];
+    }
 }
 
-print "$pv: -$lut[$pv]-\n";
+generation;
+generation;
+
+print "part1: $nlit\n";
+
+for my $i (0..47)
+{
+    generation;
+}
+print "part2: $nlit\n";
