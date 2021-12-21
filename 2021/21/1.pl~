@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+my @pos=(4,8);
+my @score;
+my @die=1;
+
+while(($score[0] < 1000) && (score[1] < 1000))
+{
+    for my $p (0..1)
+    {
+	$pos[$p] = ((($pos[$p] + ($die+5) % 10)-1) % 10) +1 ;
+	print "p $p $pos[$p] $die\n";
+    }
+}
+
+      
