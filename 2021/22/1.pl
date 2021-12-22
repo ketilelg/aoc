@@ -1,0 +1,63 @@
+#!/usr/bin/perl
+
+use List::Util qw(min max);
+
+my @core; #array of arry, alle cuboids
+#
+#
+sub intersect
+    #
+    # gitt to kuboider, finn intersection
+{
+    
+}
+
+my @nc=0;
+
+while(<>)
+{
+    /(\w+) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)/;
+
+    my $w=$3-$2+1;
+    my $h=$5-$4+1;
+    my $d=$7-$6+1;
+    my $ton = 0;
+    if ($1 eq "on")
+    {
+	$ton=1;
+    }
+    print "k: $1,$2,$3,$4,$5,$6,$7 $w x $h x $d\n";
+
+    if(($2 > -100) && ($2 < 100))
+    {
+    for my $x ($2..$3)
+    {
+	for my $y ($4..$5)
+	{
+	    for my $z ($6..$7)
+	    {
+		if ($ton)
+		{
+		    if(!$core[$x+100][$y+100][$z+100])
+		    {
+			$core[$x+100][$y+100][$z+100]=1;
+			$nc++
+		    }
+		}
+		else
+		{
+		    if($core[$x+100][$y+100][$z+100])
+		    {
+			$core[$x+100][$y+100][$z+100]=0;
+			$nc--;
+		    }
+		}
+	    }
+	}
+	
+    }
+    print "nc: $nc\n";
+    }
+}
+
+print "part1: $nc\n";
