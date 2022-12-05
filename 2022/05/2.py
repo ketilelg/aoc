@@ -9,10 +9,8 @@ with open('input') as f:
                 cc=line[x:x+3]
                 if cc.find("]")>0:
                     c[s].insert(0,line[x:x+3])
-
         elif line.find("from")>0:
             x,n,xx,f,xxx,t=line.split()
-
             p=len(c[int(f)-1])-int(n)
             for i in range(0,int(n)):
                 c[int(t)-1].append(c[int(f)-1].pop(p))
