@@ -1,14 +1,14 @@
 #!/usr/bin/python3
+
+def solve(n,s):
+   for i in range(len(s)-n):
+       if len(set(s[i:i+n]))==n:
+           return i+n
+
 with open('input') as f:
     for line in f:
-        s=line.strip()
-        i=0
-        while i<(len(s)-4):
-            ss=set(s[i:i+4])
-            print("t:",ss)
-            if len(ss)==4:
-                print("hoi",ss,i+4)
-                break
-            i+=1
+        print("res4:",solve(4,line.strip()))
+        print("res14:",solve(14,line.strip()))
+
 
 
