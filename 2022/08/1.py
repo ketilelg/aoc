@@ -59,7 +59,6 @@ def ssc(r,x,y):
             break
     return vd1*vd2*vd3*vd4
 
-print("r,l",len(r),len(r[0]))
 tv=0
 md=0
 for x in range(1,len(r)-1):
