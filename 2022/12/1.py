@@ -33,16 +33,12 @@ def seek(x,y,v,d):
         d+=1
         for i in -1,1:
             nx=x+i
-            ny=y
-            if nx >= 0 and ny >= 0 and nx < w and ny < h and d < depth[ny][nx]:
-                if ord(map[ny][nx])+1 >= ord(v):
-                    seek(nx,ny,map[ny][nx],d)
+            if nx >= 0 and nx < w and d < depth[y][nx] and ord(map[y][nx])+1 >= ord(v):
+                seek(nx,y,map[y][nx],d)
         for i in -1,1:
             ny=y+i
-            nx=x
-            if nx >= 0 and ny >= 0 and nx < w and ny < h and d < depth[ny][nx]:
-                if ord(map[ny][nx])+1 >= ord(v):
-                    seek(nx,ny,map[ny][nx],d)
+            if ny >= 0 and ny < h and d < depth[ny][x] and ord(map[ny][x])+1 >= ord(v):
+                seek(x,ny,map[ny][x],d)
 
 
 
