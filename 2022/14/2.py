@@ -31,6 +31,7 @@ for x in range(w):
    map[x][h-1]="#"
 
 def printmap():
+   print("\033[0;0H")
    for y in range(h):
       for x in range(w):
          print(map[x][y].decode(),end="")
@@ -56,6 +57,8 @@ with open('input') as f:
 done=False
 nus=0
 while not done:
+#uncomment following line to visualise the process
+#   printmap()
    sx=500-minx+offs
    sy=0
    done = map[sx][sy].decode() == "o"
