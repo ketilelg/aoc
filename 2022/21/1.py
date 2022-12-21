@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import re
-from sympy import symbols,solve
+from sympy import solve
 
 monkeys={}
 f=open('input')
@@ -20,5 +20,4 @@ def findeq(monkey):
 h=int(monkeys["humn"])
 print("p1",int(eval(findeq("root"))))
 monkeys["root"]= monkeys["root"].replace("+","-")
-h=symbols('h')
 print("p2:",solve(findeq("root"))[0])
