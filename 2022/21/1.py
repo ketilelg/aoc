@@ -11,8 +11,7 @@ for l in f.read().strip().split("\n"):
 def findeq(monkey):
     if monkey=="humn":
         return " h "
-    v = re.search("\d+",monkeys[monkey])
-    if v:
+    if re.search("\d+",monkeys[monkey]):
         return monkeys[monkey]
     else:
         l,op,r=monkeys[monkey].split(" ")
