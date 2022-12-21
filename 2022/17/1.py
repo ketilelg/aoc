@@ -77,7 +77,7 @@ while i < iters:
         if jbpairs[jbp]==2 and not repfoundstart:
             #we have a repeat..
             repfoundstart=True
-            print("start jbp",i,jbp,jbpairs[jbp])
+#            print("start jbp",i,jbp,jbpairs[jbp])
             repjp=jetpos
             reprock=i%5
             repstart=i
@@ -88,7 +88,7 @@ while i < iters:
             reph=highest-repstarth
             nreps=int((iters-i)/replen)-1
             repfoundend=True
-            print("end jbp",i,jbp,jbpairs[jbp],nreps,replen,reph)
+#            print("end jbp",i,jbp,jbpairs[jbp],nreps,replen,reph)
             i+=nreps*replen
             stackoff=nreps*reph
             highest+=stackoff
