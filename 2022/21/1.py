@@ -2,11 +2,7 @@
 import re
 from sympy import solve
 
-monkeys={}
-f=open('input')
-for l in f.read().strip().split("\n"):
-    monkey,value=l.split(": ")
-    monkeys[monkey]=value
+monkeys=dict(l.split(": ") for l in open("sample").read().strip().split("\n"))
         
 def findeq(monkey):
     if monkey=="humn":
