@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+use strict;
+
+use Set::Scalar;
+
+#$s = Set::Scalar->new;
+#$s->insert('a', 'b');
+#$s->delete('b');
+#$t = Set::Scalar->new('x', 'y', $z);
+
+
+while(<>)
+{
+    @inp=split " ";
+    print @inp ®\n";
+}
