@@ -1,0 +1,50 @@
+#!/opt/local/bin/perl
+
+my %stopped; # array av x-y, med antall stopp..
+
+while(<>)
+{
+    chomp;
+    #parse linja:
+    my $n;
+    my $e;
+    my $moves=$_;
+    print "wl: $moves\n";
+    while($move ne "")
+    {
+	switch (substr $moves,0,1) {
+	    case "n"
+	    {
+		if (substr($moves,1,1) eq "e"}
+		{ #nordøst
+		}
+		else
+		{ #nordvest
+		}
+ 		my $x=substr($moves,2);
+		$moves=$x;
+	    }
+	    
+	    case "s"
+	    { #sørøst
+		my $x=substr($moves,2);
+		$moves=$x;
+	    }
+
+	    case "e"
+	    { #sørvest
+		$e++;
+		my $x=substr($moves,2);
+		$moves=$x;
+	    }
+
+	    case "w"
+	    {
+		$e--;
+		my $x=substr($moves,2);
+		$moves=$x;
+	    }
+	}
+    }
+    
+}

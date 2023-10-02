@@ -1,0 +1,8 @@
+#!/opt/local/bin/perl
+
+use strict;
+
+
+my @circle=split "";
+
+print "c: @circle\n";

@@ -1,0 +1,15 @@
+#!/opt/local/bin/perl
+
+use strict;
+
+my $pk = 17807724;
+my $sn = 1;
+my $loop = 0;
+
+while($sn != $pk)
+{
+    $sn = $sn * 7;
+    $sn = $sn % 20201227;
+    $loop++;
+    print "loop: $loop $sn\n";
+}

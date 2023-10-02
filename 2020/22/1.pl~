@@ -1,0 +1,22 @@
+#!/opt/local/bin/perl
+
+use strict;
+
+$_=<>; #skip "player 1";
+
+my @hands;
+
+$_=<>; # les inn første tall
+while (/ˆ(d+)$/)
+{
+    push ($hands[0],$_);
+    $_=<>;
+}
+#er på blank linje. les over neste, repeat:
+
+while (<>)
+{
+    push ($hands[1],$_);
+}
+
+print "p0: $hands[0]\n";print "p1: $hands[1]\n";
