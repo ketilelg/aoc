@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+
+use strict;
+
+#les inn tiles..:
+while (<>)
+{
+    if(/Tile\s(\d+):/)
+    {
+	print "tile: $1\n";
+    }
+}
+
+    
