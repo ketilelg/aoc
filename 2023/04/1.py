@@ -1,6 +1,6 @@
 sum=0
 sum2=0
-with open('input') as f:
+with open('sample2') as f:
     cards = f.read().strip().split("\n")
 
 copies=[1]*(len(cards)+1)
@@ -12,10 +12,7 @@ for line in cards:
     w,c=rh.split("|")
     wins=w.split()
     cards=c.split()
-    nwin=0
-    for ww in wins:
-        if(ww in cards):
-            nwin+=1
+    nwin=len(set(wins).intersection(cards))
     if(nwin>0):
         sum+=2**(nwin-1)
         for i in range(nwin):
