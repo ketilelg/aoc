@@ -1,4 +1,0 @@
-sum=0
-max=0
-with open('sample') as f:
-    for line in f:
