@@ -9,8 +9,6 @@ dists=list(map(int,inp[1].split(":")[1].split()))
 s1=1
 
 for (t,d) in zip(times,dists):
-    print("t:",t)
-    print("d:",d)
     x1=math.ceil((-t + math.sqrt((t*t) - (4 * d))) / -2)
     x2=math.floor((-t - math.sqrt((t*t) - (4 * d))) / -2)
     nn=x2-x1+1
