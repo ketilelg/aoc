@@ -1,6 +1,7 @@
 import math
+import sys
 
-with open('input') as f:
+with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
 
 times=list(map(int,inp[0].split(":")[1].split()))
