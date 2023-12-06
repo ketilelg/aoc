@@ -13,11 +13,8 @@ def ntimes(t,d):
     x2=math.floor((-t - math.sqrt((t*t) - (4 * d))) / -2)
     return(x2-x1+1)
     
-s1=1
-
-for (t,d) in zip(times,dists):
-    s1 *= ntimes(t,d)
-
+s1= math.prod(list(map(ntimes,times,dists)))
+    
 print("1:", s1)
         
 t=int("".join(list(map(str,times))))
