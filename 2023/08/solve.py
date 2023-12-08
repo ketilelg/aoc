@@ -24,4 +24,4 @@ def nsteps(pos):
                 
 print("1:", nsteps("AAA"))
 
-print("2:", math.lcm(*list(map(nsteps,[pos for pos in net if pos[2] == "A"]))))
+print("2:", math.lcm(*map(nsteps,[pos for pos in net if pos[2] == "A"])))
