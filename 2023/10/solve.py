@@ -1,13 +1,8 @@
 import math
-import resource,sys
+import sys
 
 s1=0
 s2=0
-
-print(resource.getrlimit(resource.RLIMIT_STACK))
-print(sys.getrecursionlimit())
-
-# resource.setrlimit(resource.RLIMIT_STACK, [0x10000000,resource.RLIM_INFINITY])
 
 sys.setrecursionlimit(100000)
 
@@ -21,9 +16,6 @@ h=len(map)
 nmap=[[" "] *h*3 for _ in range(w*3)]
 
 
-print(w,h,map)
-print("nmapd",len(nmap))
-print(nmap)
 
 symbols={"-":["   ","***","   "],
          "|":[" * "," * "," * "],
@@ -40,12 +32,12 @@ for x in range(w):
         if(map[y][x]=="S"):
             sx=x
             sy=y
-            print("start",x,y)
+#            print("start",x,y)
     
 
 def floop(sx,sy,dir,dist):
     #find loop
-    print("fl",sx,sy,dir,dist)
+#    print("fl",sx,sy,dir,dist)
     done=0
     nx=sx
     ny=sy
@@ -68,7 +60,7 @@ def floop(sx,sy,dir,dist):
            dw=floop(sx-1,sy,"w",dist+1)
         if((sx<(w-1)) & (map[sy][sx+1] in "-J7")):
            de=floop(sx+1,sy,"e",dist+1)
-        print("start?",dn,ds,de,dw)
+#        print("start?",dn,ds,de,dw)
         return(max(dn,ds,de,dw))
     elif(me in  "|-7FJL"):
 #        print("nots",dir,me,sx,sy,symbols[me])
@@ -116,26 +108,12 @@ def floop(sx,sy,dir,dist):
         return(dist)
            
 dd=floop(sx,sy," ",0)
-print("dd",dd)           
+
 s1=dd/2
 
 print("1:", s1)
 
-for x in nmap:
-    print(x)
 
-def ffill(x,y,d):
-#    print("ffill",x,y,d)
-    if(nmap[y][x] == " "):
-        nmap[y][x]= "O"
-
-        for xx in range(max(0,x-1),min(h*3,x+2)):
-            for yy in range(max(0,y-1),min(w*3,y+2)):
-                print("ff",xx,yy,d)
-                if(nmap[yy][xx] == " "):
-                    ffill(xx,yy,d+1)
-
-# ffill(0,0,0)
 nmap[0][0]="O"
 nh=h*3
 nw=w*3
@@ -166,12 +144,10 @@ def fill(x,y):
                         nmap[y][x]="O"
                         n+=1
 #                        print("y4")
-        print("fn",n)
+#        print("fn",n)
 
 fill(0,0)
 
-for x in nmap:
-    print(x)
 
 
 for x in range(h):
@@ -180,8 +156,6 @@ for x in range(h):
             s2+=1
             nmap[(y*3)+1][(x*3)+1]="I"
 
-#for x in nmap:
-#    print(x)
 
 print("2:", s2)
 
