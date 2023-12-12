@@ -58,7 +58,7 @@ def repl(str,ds,pos):
         lc =(list(map(len,(g for g in str.split(".") if (g)))))
 #        print("lc",lc,ds)
         if(lc==ds):
-            print("match")
+#            print("match")
             m=1
         else:
             m=0
@@ -66,8 +66,8 @@ def repl(str,ds,pos):
 
 
 for l in lines:
-    print()
-    print("L",l)
+#    print()
+#    print("L",l)
 
     ds=(list(map(int,l[1].split(","))))
     s1+=repl(l[0],ds,0)
