@@ -93,21 +93,19 @@ s1=count(mirror)
 
 print("1:", int(s1))
 
-pm=dict()
-
+pm=dict() #remember permutations, and first occurence
+psc=dict() #remember scores, per round
 round=0
-
-# print("str",stringify(mirror))
 mstr=stringify(mirror)
 while not mstr in pm:
     pm[mstr]=round
     round+=1
     cycle(mirror)
     mstr=stringify(mirror)
-    print("round",round,count(mirror),mstr)
+    psc[round]=count(mirror)
 
+scpos= ((1000000000 - pm[mstr]) % (round-pm[mstr]))+pm[mstr]
+s2=psc[scpos]
 
-    
-print("urkurk",round,100 % (round-pm[mstr]),pm[mstr])    
 print("2:", int(s2))
 
