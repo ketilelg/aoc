@@ -90,7 +90,6 @@ def count(m):
 
 s1=count(mirror)
 
-
 print("1:", int(s1))
 
 pm=dict() #remember permutations, and first occurence
@@ -103,9 +102,8 @@ while not mstr in pm:
     cycle(mirror)
     mstr=stringify(mirror)
     psc[round]=count(mirror)
-
-scpos= ((1000000000 - pm[mstr]) % (round-pm[mstr]))+pm[mstr]
-s2=psc[scpos]
+    
+s2=psc[((1000000000 - pm[mstr]) % (round-pm[mstr]))+pm[mstr]]
 
 print("2:", int(s2))
 
