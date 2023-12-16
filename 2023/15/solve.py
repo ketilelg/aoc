@@ -19,16 +19,6 @@ def chash(h):
         v=v%256
     return v
 
-def nhash(h):
-    v=0
-    for c in h[0],h[1]:
-        v+=ord(c)
-        v*=17
-        v=v%256
-    return v
-
-
-
 n=0
 boxes=[[] for s in range(256)]
 
@@ -37,9 +27,9 @@ sps=re.compile("=-")
 for h in hashes:
     n+=1
     s1+=chash(h)
-    np=nhash(h)
     if(h[-2]=="="):
         label=h[:-2]
+        np=chash(label)
         #is it there?
         found=False
         for p,l in enumerate(boxes[np]):
@@ -50,13 +40,17 @@ for h in hashes:
         if(not found):
             print("new",label)
             boxes[np].append(label+" "+h[-1])
-    else:
+    elif(h[-1] == "-"):
         label=h[:-1]
+        np=chash(label)
         print("remove",label)
         for p,l in enumerate(boxes[np]):
             if(l[:-2] == label):
                 print("rfound",label,p)
                 boxes[np].pop(p)
+    else:
+        print("wut?",h)
+                
 #    print("bbb",boxes[:10])
 
 print("b",boxes)
@@ -75,5 +69,5 @@ for boxno,b in enumerate(boxes):
 
 print("2:", int(s2))
 # 31163 too low
-# 253561 too high
 # 10015691 too high
+# 253561 too high
