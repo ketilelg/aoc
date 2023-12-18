@@ -90,6 +90,14 @@ for l in lines:
 
     ds=(list(map(int,l[1].split(","))))
     r=repl(l[0],ds,0)
+    """
+    rl=repl(l[0]+".",ds,0)+repl(l[0]+"#",ds,0)
+    rm=repl("."+l[0]+".",ds,0)+repl("."+l[0]+"#",ds,0)+repl("#"+l[0]+".",ds,0)+repl("#"+l[0]+"#",ds,0)
+    rr=repl("."+l[0],ds,0)+repl("#"+l[0],ds,0)
+    rrr=rl*rm*rm*rm*rr
+    print("ress",rl,rm,rr,rrr)
+    s2+=rrr
+
     print("res",r)
     print("-.",repl(l[0]+".",ds,0))
     print("-#",repl(l[0]+"#",ds,0))
@@ -101,7 +109,10 @@ for l in lines:
     print()
     print(".-",repl("."+l[0],ds,0))
     print("#-",repl("#"+l[0],ds,0))
-    p2ass={}
+    """
+
+
+#    p2ass={}
 #    print("p2r",p2r(l[0],ds,[".l",".l",".l",".l"],0))
 #    print("p2ass",p2ass)
     
