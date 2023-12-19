@@ -48,6 +48,8 @@ def printvm():
                 print("X",end="")
             else:
                 print(".",end="")
+            print("%3d" % dmap[y][x][2],end="")
+            print(dmap[y][x][1],end="")
             v=dmap[y][x][0]
             if(v<1000):
                 print("%3d " % v,end="")
@@ -56,64 +58,49 @@ def printvm():
         print()
 
 
-print("wh",w,h)
-    #gitt punkt x,y, se om vi kan prøve å kjøre ut i alle retninger det er mulig
+    #en variant av Dijkstra
     #d=direction vi kom fra, l=lengen av bevegelse i denne retningen
     #hl=heatloss
 def find(x,y,d,l,hl):
     global mhl,h,w
-    print("f",x,y,d,l,hl,mhl,w,h)
+    print("f",x,y,d,l,hl)
     printvm()
 
     if(not visited[y][x]):
         visited[y][x]=True
-        hl+=mmap[y][x]
-#        dmap[y][x]=(hl," ",4)
-#        if(hl >= mhl):
-#            visited[y][x]=False
-#            print("too long",x,y,hl)
-#            return(hl)
+        hl=dmap[y][x][0]
         if((x==w-1) and (y==h-1)):
-#            printv(visited)
             print("ee",x,y,h,hl,mhl)
-#            if(hl < mhl):
-#                mhl=hl
-#            visited[y][x]=False
-#            return(mhl)
-#            res=w*h*10
-        neig=[] #list of dists of unvis
-#        if(((x<(w-1)) and (not visited[y][x+1]) and ((d!=">") or (l<maxlen)))):
-        for dx,dy in [(1,0),(0,1),(-1,0),(0,-1)]:
+            printvm()
+            return(hl)
+        for dx,dy,dir in [(1,0,">"),(0,1,"v"),(-1,0,"<"),(0,-1,"^")]:
             nx=x+dx
             ny=y+dy
 
-                
             if((0 <= nx <= (w-1)) and (0 <= ny <= (h-1)) and (not visited[y+dy][x+dx])):
 
                 tv=hl+mmap[ny][nx]
                 if(tv < dmap[ny][nx][0]):
-                    dmap[ny][nx]=(tv," ",4)
-                    tup=(tv,dx,dy)
-                    neig.append(tup)
-
-        if(neig):
-            print("fr",x,y,hl,neig)
-            neig.sort()
-            for best in neig:
-#                best=neig[0]
-                dx=best[1]
-                dy=best[2]
-                r=find(x+dx,y+dy," ",1,hl)
-#        visited[y][x]=False
-#        return(res)
+                    dmap[ny][nx]=(tv,dir,1 if dir != dmap[y][x][1] else dmap[y][x][2]+1)
+            bx=0
+            by=0
+            bd=mhl
+        #find lowest unvisited:
+        for xx in range(w):
+            for yy in range(h):
+                if(not visited[yy][xx] and (dmap[yy][xx][0] < bd)):
+                    bd=dmap[yy][xx][0]
+                    bx=xx
+                    by=yy
+        return find(bx,by," ",1,hl)
     else:
         print("wtf=??")
         return(mhl)
 
 print("ff",find(0,0,">",1,0))
 
-printm(dmap)
-printv(visited)
+#printm(dmap)
+#printv(visited)
 
 print("1:", s1)
 # 1157 too high
