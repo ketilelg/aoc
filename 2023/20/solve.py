@@ -10,6 +10,8 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'sample') as f:
 print("i",input)
 
 
+
+
 def run(inst):
     inst=input[inst]
     for i in inst.split(","):
