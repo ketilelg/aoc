@@ -87,7 +87,7 @@ for p in parts:
         
         
     
-print("rules",rules)
+# print("rules",rules)
 
 print("1:", int(s1))
 
@@ -118,14 +118,13 @@ def volume(a):
         return(0)
 
 #demo:
-print("vv",volume(((1,1,1,1),(1416,4000,4000,1351))))
-ol=overlap(((1,1,1,1),(10,10,10,10)),((9,9,9,9),(20,20,20,20)))
-print("vvv",volume(ol))
 
-areas=[]
+
+
 def rulerun(rule,minx,minm,mina,mins,maxx,maxm,maxa,maxs):
+    global s2
     #run through rules, build list of areas 
-    print("rulerun",rule,rule,"(",minx,minm,mina,mins,")(",maxx,maxm,maxa,maxs,")")
+#    print("rulerun",rule,rule,"(",minx,minm,mina,mins,")(",maxx,maxm,maxa,maxs,")")
     mminx=minx
     mmaxx=maxx
     mminm=minm
@@ -136,85 +135,87 @@ def rulerun(rule,minx,minm,mina,mins,maxx,maxm,maxa,maxs):
     mmaxs=maxs
 
     for rr in rules[rule]:
-        print("rrr",rule,rr,"(",mminx,mminm,mmina,mmins,")(",mmaxx,mmaxm,mmaxa,mmaxs,")")
+#        print("rrr",rule,rr,"(",mminx,mminm,mmina,mmins,")(",mmaxx,mmaxm,mmaxa,mmaxs,")")
         if(rr.find(":") > 0):
             test,next=rr.split(":")
-            print("t,n",test,next)
+#            print("t,n",test,next)
             
             if(test.find("<") > 0):
                 testval=int(test.split("<")[1])
                 if (test.split("<")[0] == "x"):
                     if(maxx>testval):
-                        mmaxx=testval
+                        mmaxx=testval-1
                 if (test.split("<")[0] == "m"):
                     if(maxm>testval):
-                        mmaxm=testval
+                        mmaxm=testval-1
                 if (test.split("<")[0] == "a"):
                     if(maxa>testval):
-                        mmaxa=testval
+                        mmaxa=testval-1
                 if (test.split("<")[0] == "s"):
                     if(maxs>testval):
-                        mmaxs=testval
+                        mmaxs=testval-1
             if(test.find(">") > 0):
                 testval=int(test.split(">")[1])
                 if (test.split(">")[0] == "x"):
                     if(minx<testval):
-                        mminx=testval
+                        mminx=testval+1
                 if (test.split(">")[0] == "m"):
                     if(minm<testval):
-                        mminm=testval
+                        mminm=testval+1
                 if (test.split(">")[0] == "a"):
                     if(mina<testval):
-                        mmina=testval
+                        mmina=testval+1
                 if (test.split(">")[0] == "s"):
                     if(mins<testval):
-                        mmins=testval
+                        mmins=testval+1
             if(next=="A"):
-                areas.append(((mminx,mminm,mmina,mmins),(mmaxx,mmaxm,mmaxa,mmaxs)))
+                s2+=volume(((mminx,mminm,mmina,mmins),(mmaxx,mmaxm,mmaxa,mmaxs)))
             elif(next!="R"):    
                 rulerun(next,mminx,mminm,mmina,mmins,mmaxx,mmaxm,mmaxa,mmaxs)
-        if(mmaxx!=maxx):
-            mminx=mmaxx
-            mmaxx=maxx
-        elif(mminx!=minx):
-            mmaxx=mminx
-            mminx=minx
-        if(mmaxm!=maxm):
-            mminm=mmaxm
-            mmaxm=maxm
-        elif(mminm!=minm):
-            mmaxm=mminm
-            mminm=minm
-        if(mmaxa!=maxa):
-            mmina=mmaxa
-            mmaxa=maxa
-        elif(mmina!=mina):
-            mmaxa=mmina
-            mmina=mina
-        if(mmaxs!=maxs):
-            mmins=mmaxs
-            mmaxs=maxs
-            print("mmmax",mmins,mmaxs)
-        elif(mmins!=mins):
-            mmaxs=mmins
-            mmins=mins
-            print("mmmin",mmins,mmaxs)
+            if(mmaxx!=maxx):
+                mminx=mmaxx+1
+                mmaxx=maxx
+            elif(mminx!=minx):
+                mmaxx=mminx-1
+                mminx=minx
+            if(mmaxm!=maxm):
+                mminm=mmaxm+1
+                mmaxm=maxm
+            elif(mminm!=minm):
+                mmaxm=mminm-1
+                mminm=minm
+            if(mmaxa!=maxa):
+                mmina=mmaxa+1
+                mmaxa=maxa
+            elif(mmina!=mina):
+                mmaxa=mmina-1
+                mmina=mina
+            if(mmaxs!=maxs):
+                mmins=mmaxs+1
+                mmaxs=maxs
+            elif(mmins!=mins):
+                mmaxs=mmins-1
+                mmins=mins
             
         if ((rr.find(":")<0) and rr!="A" and rr!= "R"):
-            print("DDD")
+#            print("DDD")
             rulerun(rr,minx,minm,mina,mins,maxx,maxm,maxa,maxs)
         elif (rr=="A"):
-            print("AAA")
-            areas.append(((mminx,mminm,mmina,mmins),(mmaxx,mmaxm,mmaxa,mmaxs)))
-        print("rrrend",rule,rr,"(",mminx,mminm,mmina,mmins,")(",mmaxx,mmaxm,mmaxa,mmaxs,")")
+#            print("AAA")
+            s2+=volume(((mminx,mminm,mmina,mmins),(mmaxx,mmaxm,mmaxa,mmaxs)))
+        minx=mminx
+        maxx=mmaxx
+        minm=mminm
+        maxm=mmaxm
+        mina=mmina
+        maxa=mmaxa
+        mins=mmins
+        maxs=mmaxs
+            
+#        print("rrrend",rule,rr,"(",mminx,mminm,mmina,mmins,")(",mmaxx,mmaxm,mmaxa,mmaxs,")")
         
 rulerun("in",1,1,1,1,4000,4000,4000,4000)
 
-for a in areas:
-    print("area",a)
-    v=volume(a)
-    print("vol",v)
-    s2+=v #obviously wrong, but still
 
 print("2:", int(s2))
 
