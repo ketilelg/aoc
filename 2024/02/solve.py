@@ -22,18 +22,14 @@ for l in levels:
         for j in range(len(l)):
             lp=l.copy()
             lp.pop(j)
-            print("no",lp)
             ook=True
             for i in range(len(lp)-1):
                 up=lp[0]<lp[1]
-                print("ii",i,lp)
                 ook=ook and (((1 <= lp[i] - lp[i+1] <= 3) and not up) or 
                             ((1 <= lp[i+1] - lp[i] <= 3) and up))
             ok=ok or ook
-            print("okok",ok,ook)
         if ok:
             p2 = p2 + 1
 
 print("1:",p1)
-# 621 too high
 print("2:",p2+p1)
