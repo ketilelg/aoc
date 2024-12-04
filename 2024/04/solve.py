@@ -13,66 +13,17 @@ p2=0
 
 w=len(map)
 h=len(map[0])
-# check hor:
 
 for y in range(len(map)):
-    ystr=""
-    for x in range(len(map[y])):
-        ystr+=map[y][x]
+    for x in range(len(map[0])):
+        if(map[y][x]=="X"):
+            for dx in (-1,0,1):
+                for dy in (-1,0,1):
+                    if(0<= x+dx*3 < w) and (0 <= y+dy*3 < h):
+                        if ("X"+map[y+dy*1][x+dx*1]+map[y+dy*2][x+dx*2]+map[y+dy*3][x+dx*3] == "XMAS"):
+                            p1+=1
 
-    p1+=ystr.count("XMAS")
-    p1+=ystr.count("SAMX")
-    ddstr=""
-    sx=0
-    sy=y
-    if(sy>0):
-        while sy<h and sx<w:
-            ddstr+=map[sy][sx]
-            sy+=1
-            sx+=1
-        p1+=ddstr.count("XMAS")
-        p1+=ddstr.count("SAMX")
-
-    ddstr=""
-    sx=0
-    sy=y
-    if(sy<h-1):
-        while sy>=0 and sx<w:
-            ddstr+=map[sy][sx]
-            sy-=1
-            sx+=1
-        p1+=ddstr.count("XMAS")
-        p1+=ddstr.count("SAMX")
-
-for x in range(len(map[0])):
-    xstr=""
-    for y in range(len(map)):
-        xstr+=map[y][x]
-
-    p1+=xstr.count("XMAS")
-    p1+=xstr.count("SAMX")
-
-    ddstr=""
-    sx=x
-    sy=0
-    while sy<h and sx<w:
-        ddstr+=map[sy][sx]
-        sy+=1
-        sx+=1
-    p1+=ddstr.count("XMAS")
-    p1+=ddstr.count("SAMX")
-
-    ddstr=""
-    sx=x
-    sy=h-1
-    while sy>=0 and sx<w:
-        ddstr+=map[sy][sx]
-        sy-=1
-        sx+=1
-    p1+=ddstr.count("XMAS")
-    p1+=ddstr.count("SAMX")
-
-
+    
 for x in range(1,len(map[0])-1):
     for y in range(1,len(map)-1):
         if(map[y][x]=="A"):
