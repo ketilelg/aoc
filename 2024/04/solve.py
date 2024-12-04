@@ -15,12 +15,12 @@ for y in range(len(map)):
         if(map[y][x]=="X"):
             for dx in (-1,0,1):
                 for dy in (-1,0,1):
-                    if(0<= x+dx*3 < w) and (0 <= y+dy*3 < h):
-                        if ("X"+
-                            map[y+dy*1][x+dx*1]+
-                            map[y+dy*2][x+dx*2]+
-                            map[y+dy*3][x+dx*3] == "XMAS"):
-                            p1+=1
+                    if ((0<= x+dx*3 < w)
+                        and (0 <= y+dy*3 < h)
+                        and (map[y+dy*1][x+dx*1]+
+                             map[y+dy*2][x+dx*2]+
+                             map[y+dy*3][x+dx*3] == "MAS")):
+                        p1+=1
 
     
 for x in range(1,len(map[0])-1):
