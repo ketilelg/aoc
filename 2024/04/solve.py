@@ -2,11 +2,7 @@ import sys
 import re
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
-    inp = f.read().strip().split("\n")
-
-map=[]
-for l in inp:
-    map.append(list(l))
+    map = list(map(list,f.read().strip().split("\n")))
 
 p1=0
 p2=0
@@ -20,7 +16,10 @@ for y in range(len(map)):
             for dx in (-1,0,1):
                 for dy in (-1,0,1):
                     if(0<= x+dx*3 < w) and (0 <= y+dy*3 < h):
-                        if ("X"+map[y+dy*1][x+dx*1]+map[y+dy*2][x+dx*2]+map[y+dy*3][x+dx*3] == "XMAS"):
+                        if ("X"+
+                            map[y+dy*1][x+dx*1]+
+                            map[y+dy*2][x+dx*2]+
+                            map[y+dy*3][x+dx*3] == "XMAS"):
                             p1+=1
 
     
