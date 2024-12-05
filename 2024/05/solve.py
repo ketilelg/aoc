@@ -30,12 +30,10 @@ for p in prod:
     if inorder(pp):
         p1+=int(pp[int(len(pp)/2)])
     else:
-        ordered=False
-        while not ordered: #bubblesort for the win
+        while not inorder(pp): #bubblesort for the win
             for i in range(len(pp)-1):
                 if not before(pp[i],pp[i+1]):
                     pp[i],pp[i+1] = pp[i+1],pp[i]
-            ordered=inorder(pp)
         p2+=int(pp[int(len(pp)/2)])
 
 print("1:",p1)
