@@ -11,12 +11,7 @@ p2=0
 
 def before(p1,p2):
     res=True
-    for t in order:
-        l,r=t.split("|")
-        if(l==p1 and  r==p2):
-            return True
-        elif (r==p1 and l==p2):
-            return False
+    return p1+"|"+p2 in order
 
 def inorder(pp):
     ordered=True
