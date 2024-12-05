@@ -5,9 +5,7 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     f1,f2 = f.read().strip().split("\n\n")
 
 order=f1.split("\n")
-
 prod=f2.split("\n")
-
 
 p1=0
 p2=0
@@ -33,7 +31,7 @@ for p in prod:
         p1+=int(pp[int(len(pp)/2)])
     else:
         ordered=False
-        while not ordered:
+        while not ordered: #bubblesort for the win
             for i in range(len(pp)-1):
                 if not before(pp[i],pp[i+1]):
                     pp[i],pp[i+1] = pp[i+1],pp[i]
