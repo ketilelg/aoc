@@ -10,7 +10,6 @@ p1=0
 p2=0
 
 def before(p1,p2):
-    res=True
     return p1+"|"+p2 in order
 
 def inorder(pp):
