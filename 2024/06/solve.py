@@ -17,8 +17,6 @@ def printmap():
             print(map[y][x],end="")
         print("")
 
-posx=-1
-posy=-1
 for y in range(w):
     for x in range(h):
         if(map[y][x]=="^"):
@@ -30,9 +28,6 @@ sposx,sposy=posx,posy
 diry=-1
 dirx=0
 
-printmap()
-print()
-
 done=False
 while not done:
     if map[posy][posx] != "X":
@@ -40,10 +35,7 @@ while not done:
         p1+=1
     posx+=dirx
     posy+=diry
-#    printmap()
-    print("dxdy",dirx,diry)
     if(posy < 0 or posy >= h or posx < 0 or posx >= w):
-#        print("dd",posx,posy,w,h)
         done=True
     else:
         if map[posy][posx] == "#":
@@ -54,31 +46,29 @@ while not done:
             else:
                 dirx,diry = 0, dirx
 
+omap=copy.deepcopy(map)
+map=copy.deepcopy(xmap)
+
 for y in range(h):
     for x in range(w):
         posx,posy=sposx,sposy
-        map=copy.deepcopy(xmap)
+        om=map[y][x]
         map[y][x]="#"
         diry=-1
         dirx=0
-        been=[[(0,0)] * w  for j in range(h)] 
-
+        been=[]
         print("been",x,y)
-        done = (x==sposx) and (y==sposy)
+        #vi prøver bare om det er sjanse for kollisjon:
+        done = omap[y][x] in ["^",".","#"]
         while not done:
-            been[posy][posx]=(dirx,diry)
-#            print("BBB1",x,y,posx,posy,been[posy][posx],(dirx,diry))
+            been.append((posx,posy,dirx,diry))
             posx+=dirx
             posy+=diry
-#            print("BBB",x,y,posx,posy,been[posy][posx],(dirx,diry))
-#            printmap()
-#            print("dxdy",dirx,diry)
             if(posy < 0 or posy >= h or posx < 0 or posx >= w):
-#                print("dd",posx,posy,w,h)
                 done=True
-            elif been[posy][posx][0] == dirx and been[posy][posx][1]==diry:
+            elif (posx,posy,dirx,diry) in been:
                 #loop, har vært her.
-                print("been",posx,posy,dirx,diry)
+                print("loop",posx,posy,dirx,diry)
                 p2+=1
                 done=True
             else:
@@ -89,7 +79,7 @@ for y in range(h):
                         diry,dirx = 0, -diry
                     else:
                         dirx,diry = 0, dirx
-
+        map[y][x]=om
 
 
 
