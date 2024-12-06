@@ -57,7 +57,6 @@ for y in range(h):
         diry=-1
         dirx=0
         been=[]
-        print("been",x,y)
         #vi prøver bare om det er sjanse for kollisjon:
         done = omap[y][x] in ["^",".","#"]
         while not done:
@@ -67,7 +66,6 @@ for y in range(h):
                 done=True
             elif (posx,posy,dirx,diry) in been:
                 #loop, har vært her.
-                print("loop",posx,posy,dirx,diry)
                 p2+=1
                 done=True
             else:
@@ -80,13 +78,6 @@ for y in range(h):
                     else:
                         dirx,diry = 0, dirx
         map[y][x]=om
-
-
-
-
-print("xy",posx,posy)
-
-
 
 print("1:",p1)
 print("2:",p2)
