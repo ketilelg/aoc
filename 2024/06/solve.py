@@ -61,7 +61,6 @@ for y in range(h):
         #vi prøver bare om det er sjanse for kollisjon:
         done = omap[y][x] in ["^",".","#"]
         while not done:
-            been.append((posx,posy,dirx,diry))
             posx+=dirx
             posy+=diry
             if(posy < 0 or posy >= h or posx < 0 or posx >= w):
@@ -73,6 +72,7 @@ for y in range(h):
                 done=True
             else:
                 if map[posy][posx] == "#":
+                    been.append((posx,posy,dirx,diry))
                     posx-=dirx
                     posy-=diry
                     if dirx==0:
