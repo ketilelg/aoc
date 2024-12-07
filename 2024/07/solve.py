@@ -21,8 +21,6 @@ for line in inp:
                 result+=int(factors.pop(0))
             elif op=="*":   
                 result*=int(factors.pop(0))
-            else:
-                print("wtf???")        
         if(int(left)==result):
             p2+=result
             if "||" not in opers:
