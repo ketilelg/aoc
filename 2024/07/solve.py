@@ -5,28 +5,28 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
 
 p1=p2=0
-for li in inp:
-    ll,eq=li.split(": ")
+for line in inp:
+    left,eq=line.split(": ")
     ff=eq.split(" ")
-    ops=product(["+","*","||"],repeat = len(ff)-1)
-    for ooo in list(ops):
+    allops=product(["+","*","||"],repeat = len(ff)-1)
+    for opers in list(allops):
         factors=ff.copy()
-        oo=list(ooo)
-        newexp=int(factors.pop(0))
+        ops=list(opers)
+        result=int(factors.pop(0))
         while len(factors)>0:
-            opp=oo.pop(0)
-            if opp=="||":
-                newexp=int(str(newexp)+factors.pop(0))
-            elif opp=="+":
-                newexp+=int(factors.pop(0))
-            elif opp=="*":   
-                newexp*=int(factors.pop(0))
+            op=ops.pop(0)
+            if op=="||":
+                result=int(str(result)+factors.pop(0))
+            elif op=="+":
+                result+=int(factors.pop(0))
+            elif op=="*":   
+                result*=int(factors.pop(0))
             else:
                 print("wtf???")        
-        if(int(ll)==newexp):
-            p2+=newexp
-            if "||" not in ooo:
-                p1+=newexp
+        if(int(left)==result):
+            p2+=result
+            if "||" not in opers:
+                p1+=result
             break
 
 print("1:",p1)
