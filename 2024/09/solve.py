@@ -52,6 +52,7 @@ pos=0
 while emap[pos] !=".":
     p1+=emap[pos]*pos
     pos+=1
+    
 
 print("1:",p1)
 print("2:",p2)
