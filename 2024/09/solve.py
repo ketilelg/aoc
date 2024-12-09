@@ -40,7 +40,7 @@ print("spl",space,lastblock)
 
 print("ee",emap)
 
-nmap=[]
+p2map=[]
 space=int(map[0]) #første ledige plass
 lastblock=len(map)-1
 lastid=int(lastblock/2)
