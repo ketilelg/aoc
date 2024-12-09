@@ -64,12 +64,12 @@ for y in range(h):
             posy+=diry
             if(posy < 0 or posy >= h or posx < 0 or posx >= w):
                 done=True
-            elif (posx,posy,dirx,diry) in been:
-                #loop, har vært her.
-                p2+=1
-                done=True
             else:
                 if map[posy][posx] == "#":
+                    if (posx,posy,dirx,diry) in been:
+                        #loop, har vært her.
+                        p2+=1
+                        done=True
                     been.append((posx,posy,dirx,diry))
                     posx-=dirx
                     posy-=diry
