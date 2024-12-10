@@ -8,14 +8,14 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
 
 p1=p2=0
 
-w=len(tmap)
-h=len(tmap[0])
+h=len(tmap)
+w=len(tmap[0])
 
 ratings=[[0]*w for i in range(h)]
 
 def printmap(m):
-    for y in range(h):
-        for x in range(w):
+    for y in range(len(m)):
+        for x in range(len(m[0])):
             print(m[y][x],end="")
         print("")
 
