@@ -21,13 +21,13 @@ def printmap(m):
 
 peaks=defaultdict(set)
 
-def findtrails(sx,sy,x,y,level):
-    if(tmap[y][x] != level):
+def findtrails(sx,sy,x,y,level): #find all trails from a given point.
+    if(tmap[y][x] != level): # level is wrong, no trail
         return
-    elif(level==9):
+    elif(level==9): #at top of trail: remember peaks and starting points
         peaks[(x,y)].add((sx,sy))
         ratings[sy][sx]+=1
-    else:
+    else: #in trail: try all directions
         for move in [(-1,0),(0,-1),(1,0),(0,1)]:
             nx=x+move[0]
             ny=y+move[1]
