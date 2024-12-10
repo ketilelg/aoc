@@ -33,17 +33,18 @@ def findtrails(sx,sy,x,y,level):
             ny=y+move[1]
             if(0<=nx<w and 0<=ny<h):
                 findtrails(sx,sy,nx,ny,level+1)
+
 #find all trails:    
 for x in range(w):
     for y in range(h):
         findtrails(x,y,x,y,0)
+
 #sum up peaks for part 1:
 for p in peaks:
     p1+=len(peaks[p])
 #sum ratings for part 2:
 for l in ratings:
-    for p in l:
-        p2+=p
+    p2+=sum(l)
 
 print("1:",p1)
 print("2:",p2)
