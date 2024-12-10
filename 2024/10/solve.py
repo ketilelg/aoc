@@ -11,8 +11,6 @@ p1=p2=0
 h=len(tmap)
 w=len(tmap[0])
 
-ratings=[[0]*w for i in range(h)]
-
 def printmap(m):
     for y in range(len(m)):
         for x in range(len(m[0])):
@@ -22,11 +20,12 @@ def printmap(m):
 peaks=defaultdict(set)
 
 def findtrails(sx,sy,x,y,level): #find all trails from a given point.
+    global p2
     if(tmap[y][x] != level): # level is wrong, no trail
         return
     elif(level==9): #at top of trail: remember peaks and starting points
         peaks[(x,y)].add((sx,sy))
-        ratings[sy][sx]+=1
+        p2+=1
     else: #in trail: try all directions
         for move in [(-1,0),(0,-1),(1,0),(0,1)]:
             nx=x+move[0]
@@ -42,9 +41,6 @@ for x in range(w):
 #sum up peaks for part 1:
 for p in peaks:
     p1+=len(peaks[p])
-#sum ratings for part 2:
-for l in ratings:
-    p2+=sum(l)
 
 print("1:",p1)
 print("2:",p2)
