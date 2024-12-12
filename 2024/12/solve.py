@@ -30,9 +30,9 @@ def findarea(type,x,y,id):
     corners={}
     visited[y][x]=" "
     ids[y][x]=id
-    for dir in [(-1,0),(0,-1),(1,0),(0,1)]:
-        nx=x+dir[0]
-        ny=y+dir[1]
+    for dx,dy in [(-1,0),(0,-1),(1,0),(0,1)]:
+        nx=x+dx
+        ny=y+dy
         if(inp[ny][nx]==type and visited[ny][nx] != " "):
             a,p,c=findarea(type,nx,ny,id)
             area+=a
@@ -79,9 +79,8 @@ for y in range(h):
     for x in range(w):
         if visited[y+1][x+1] != " ":
             a,p,c=findarea(inp[y+1][x+1],x+1,y+1,id)
-            sides=sum(list(c.values()))
             p1+=a*p
-            p2+=a*sides
+            p2+=a*sum(list(c.values()))
             id+=1
 
 #printmap(inp)
