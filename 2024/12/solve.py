@@ -7,6 +7,7 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
 p1=p2=0
 
 visited=copy.deepcopy(inp)
+visited2=copy.deepcopy(inp)
 w=len(inp)
 h=len(inp[0])
 
@@ -38,12 +39,25 @@ def findarea(type,x,y,dx,dy):
 #        print("fa",type,x,y,nx,ny,dx,dy,dir,area,peri,sides)
     return area,peri,sides
 
-
+def findsides(type,sx,sy,x,y,dirx,diry):
+    print("fs",type,x,y,dirx,diry)
+    visited2[y][x]=" "
+    sides=0
+    for dir in [(-1,0),(0,-1),(1,0),(0,1)]:
+        nx=x+dir[0]
+        ny=y+dir[1]
+        if(0<=nx<w and 0<=ny<h and inp[ny][nx]==type and visited2[ny][nx] != " "):
+            sides+=findsides(type,sx,sy,nx,ny,dir[0],dir[1])
+        elif nx < 0 or nx >= w or ny < 0 or ny >= w or inp[ny][nx]!=type:
+            sides+=1
+    print("fsr",type,x,y,sides)        
+    return(sides)
 
 for y in range(h):
     for x in range(w):
         if visited[y][x] != " ":
             a,p,s=findarea(inp[y][x],x,y,0,0)
+            s=findsides(inp[y][x],x,y,x,y,0,0)
 #            printmap(visited)
             print("ff",a,p,s)
             p1+=a*p
