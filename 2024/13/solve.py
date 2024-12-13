@@ -25,11 +25,9 @@ def npresses(ax,bx,ay,by,resx,resy):
 
 for m in machines:
     res=re.findall(r"\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)",m)
-    ax,ay,bx,by,px,py=map(int,res[0])
-    p1+=npresses(ax,bx,ay,by,px,py)
-    px+=10000000000000
-    py+=10000000000000
-    p2+=npresses(ax,bx,ay,by,px,py)
+    ax,ay,bx,by,resx,resy=map(int,res[0])
+    p1+=npresses(ax,bx,ay,by,resx,resy)
+    p2+=npresses(ax,bx,ay,by,resx+10000000000000,resy+10000000000000)
 
 print("1:",p1)
 print("2:",p2)
