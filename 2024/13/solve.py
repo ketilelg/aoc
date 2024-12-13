@@ -17,15 +17,14 @@ def npresses(ax,bx,ay,by,resx,resy):
     a=round(x[0],3) #teh ugly, because finite precision
     b=round(x[1],3)
     if(a.is_integer() and b.is_integer()):
-        return int((a*3) + b)
+        return int(a)*3 + int(b)
     else:
         return 0
 
 
 
 for m in machines:
-    res=re.findall(r"\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)",m)
-    ax,ay,bx,by,resx,resy=map(int,res[0])
+    ax,ay,bx,by,resx,resy=map(int,re.findall(r"\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)\D+(\d+)",m)[0])
     p1+=npresses(ax,bx,ay,by,resx,resy)
     p2+=npresses(ax,bx,ay,by,resx+10000000000000,resy+10000000000000)
 
