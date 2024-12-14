@@ -1,6 +1,5 @@
 import sys
 import re
-import copy
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
@@ -41,27 +40,21 @@ p1=ul*ur*ll*lr
 def printmap(m):
     for l in m:
         for c in l:
-            print(c,end="")
-        print("<")
+            if(c>0):
+                print(c,end="")
+            else:
+                print(" ",end="")
+        print("")
 
 
 def testgen(gen):
     rmap=[[0]*(maxx+1) for i in range(maxy+1)]
     allones=True # no points with more than one robot
-    ul=ur=ll=lr=0
     for px,py,vx,vy in robots:
         nx=(px+(gen*vx))%(maxx+1)
         ny=(py+(gen*vy))%(maxy+1)
         rmap[ny][nx]+=1
         allones = allones and rmap[ny][nx] < 2
-        if nx < midx and ny < midy:
-            ul+=1
-        if nx > midx and ny < midy:
-            ur+=1
-        if nx > midx and ny > midy:
-            lr+=1
-        if nx < midx and ny > midy:
-            ll+=1
     if allones:
         print("\ngen",gen)
         printmap(rmap)
