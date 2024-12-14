@@ -49,7 +49,6 @@ def printmap(m):
 
 def nneighs(rmap):
     #returns number of robots with more than 1 neighbour
-    #a simple entropy calculation..
     #2nd gen assumtion: number of neighbors is high when picture
     nei=0
     for y in range(maxy+1):
