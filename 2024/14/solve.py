@@ -27,7 +27,6 @@ ul=ur=ll=lr=0
 for px,py,vx,vy in robots:
     nx=(px+(gens*vx))%(maxx+1)
     ny=(py+(gens*vy))%(maxy+1)
-    print("dsf",px,py,nx,ny)
     if nx < midx and ny < midy:
         ul+=1
     if nx > midx and ny < midy:
@@ -47,12 +46,14 @@ def printmap(m):
 
 
 def testgen(gen):
-    rmap=[["."]*(maxx+1) for i in range(maxy+1)]
+    rmap=[[0]*(maxx+1) for i in range(maxy+1)]
+    allones=True # no points with more than one robot
     ul=ur=ll=lr=0
     for px,py,vx,vy in robots:
         nx=(px+(gen*vx))%(maxx+1)
         ny=(py+(gen*vy))%(maxy+1)
-        rmap[ny][nx]="R"
+        rmap[ny][nx]+=1
+        allones = allones and rmap[ny][nx] < 2
         if nx < midx and ny < midy:
             ul+=1
         if nx > midx and ny < midy:
@@ -61,9 +62,10 @@ def testgen(gen):
             lr+=1
         if nx < midx and ny > midy:
             ll+=1
-    print("\ngen",gen)
-    printmap(rmap)
-    return False # i see no reasonable automated test.. 
+    if allones:
+        print("\ngen",gen)
+        printmap(rmap)
+    return allones # assumption (stolen from Stein): no overlapping robots==picture
 
 while not testgen(p2):
     p2+=1
