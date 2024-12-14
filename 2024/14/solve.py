@@ -47,6 +47,23 @@ def printmap(m):
         print("")
 
 
+def nneighs(rmap):
+    #returns number of robots with more than 1 neighbour
+    #a simple entropy calculation..
+    #2nd gen assumtion: number of neighbors is high when picture
+    nei=0
+    for y in range(maxy+1):
+        for x in range(maxx+1):
+            for dx in (-1,0,1):
+                nn=0
+                for dy in (-1,0,1):
+                    if 0<=x+dx<=maxx and 0<=y+dy<=maxy and rmap[y+dy][x+dx]>0:
+                        nn+=1
+            if nn>1:
+                nei+=1
+    return nei
+
+
 def testgen(gen):
     rmap=[[0]*(maxx+1) for i in range(maxy+1)]
     allones=True # no points with more than one robot
@@ -55,6 +72,9 @@ def testgen(gen):
         ny=(py+(gen*vy))%(maxy+1)
         rmap[ny][nx]+=1
         allones = allones and rmap[ny][nx] < 2
+    n=nneighs(rmap)
+    print("gen",gen,n)
+    allones=n>int(len(robots)/2)
     if allones:
         print("\ngen",gen)
         printmap(rmap)
