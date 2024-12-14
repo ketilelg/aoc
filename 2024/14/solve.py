@@ -17,7 +17,6 @@ for l in inp:
     maxx=max(maxx,px)
     miny=min(miny,py)
     maxy=max(maxy,py)
-#    print("ppp",l,px,py,vx,vy)
     robots.append([px,py,vx,vy])
 
 
@@ -38,7 +37,6 @@ for px,py,vx,vy in robots:
     if nx < midx and ny > midy:
         ll+=1
 
-print("lll",ul,ur,ll,lr)
 p1=ul*ur*ll*lr
 
 def printmap(m):
@@ -63,10 +61,9 @@ def testgen(gen):
             lr+=1
         if nx < midx and ny > midy:
             ll+=1
-#    if(ur==0 and ul==0):
     print("\ngen",gen)
     printmap(rmap)
-
+    return False # i see no reasonable automated test.. 
 
 while not testgen(p2):
     p2+=1
