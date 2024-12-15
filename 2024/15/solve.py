@@ -32,86 +32,53 @@ print("rxy",robx,roby)
 
 dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 
+def ismovable(bmap,sx,sy,move):
+    if bmap[sy][sx] == "[":
+        return (ismovable(bmap,sx+dv[move][0],sy+dv[move][1],move) and 
+                (move in "<>" or ismovable(bmap,sx+dv[move][0]+1,sy+dv[move][1],move)))
+    elif bmap[sy][sx] == "]":
+        return (ismovable(bmap,sx+dv[move][0],sy+dv[move][1],move) and 
+                (move in "<>" or ismovable(bmap,sx+dv[move][0]-1,sy+dv[move][1],move)))
+    elif bmap[sy][sx] == "O":
+        return ismovable(bmap,sx+dv[move][0],sy+dv[move][1],move)
+    elif bmap[sy][sx] == ".":
+        return True
+    return False
+
+def movetree(bmap,ssx,ssy,sx,sy,move):
+    # assumes movability
+    if move in "^v":
+        if bmap[sy][sx] == "[":
+            movetree(bmap,ssx,ssy,sx+dv[move][0]+1,sy+dv[move][1],move)
+        elif bmap[sy][sx] == "]":
+            movetree(bmap,ssx,ssy,sx+dv[move][0]-1,sy+dv[move][1],move)
+    if bmap[sy][sx] in "@[]O":
+        movetree(bmap,ssx,ssy,sx+dv[move][0],sy+dv[move][1],move)
+    if bmap[sy][sx] in "." and (ssx!=sx or ssy!=sy):
+        oo=bmap[sy][sx]
+        bmap[sy][sx] = bmap[sy-dv[move][1]][sx-dv[move][0]]
+        bmap[sy-dv[move][1]][sx-dv[move][0]] = oo
+
 for move in dirs:
-    sx=robx
-    sy=roby
-    dist=0
-    while rmap[sy][sx] not in [".","#"]:
-          sx+=dv[move][0]
-          sy+=dv[move][1]
-          dist+=1
-    if dist > 0 and rmap[sy][sx]!="#":
-        nx=sx
-        ny=sy
-        for i in range(dist):
-            ny-=dv[move][1]
-            nx-=dv[move][0]
-            rmap[sy][sx]=rmap[ny][nx]
-            sx=nx
-            sy=ny
-        rmap[roby][robx]="."
-        roby=ny+dv[move][1]
-        robx=nx+dv[move][0]
+    sx=robx+dv[move][0]
+    sy=roby+dv[move][1]
+    if ismovable(rmap,sx,sy,move):
+        movetree(rmap,robx,roby,robx,roby,move)
+        roby+=dv[move][1]
+        robx+=dv[move][0]
+
+    sx=brobx+dv[move][0]
+    sy=broby+dv[move][1]
+    if ismovable(bmap,sx,sy,move):
+        movetree(bmap,brobx,broby,brobx,broby,move)
+        broby+=dv[move][1]
+        brobx+=dv[move][0]
 
 for x in range(w):
     for y in range(h):
         if rmap[y+1][x+1]=="O":
             p1+=(100*(y+1))+x+1
 
-
-printmap(bmap)
-
-def ismovable(sx,sy,move):
-#    print("im",sx,sy,move)
-    if bmap[sy][sx] == "[":
-        return ismovable(sx+dv[move][0],sy+dv[move][1],move) and ismovable(sx+dv[move][0]+1,sy+dv[move][1],move)
-    elif bmap[sy][sx] == "]":
-        return ismovable(sx+dv[move][0],sy+dv[move][1],move) and ismovable(sx+dv[move][0]-1,sy+dv[move][1],move)
-    elif bmap[sy][sx] == ".":
-        return True
-    return False
-
-def movetree(ssx,ssy,sx,sy,move):
-    global bmap
-    # assumes movability
-    if move in ["^","v"]:
-        if bmap[sy][sx] == "[":
-            movetree(ssx,ssy,sx+dv[move][0],sy+dv[move][1],move)
-            movetree(ssx,ssy,sx+dv[move][0]+1,sy+dv[move][1],move)
-        elif bmap[sy][sx] == "]":
-            movetree(ssx,ssy,sx+dv[move][0],sy+dv[move][1],move)
-            movetree(ssx,ssy,sx+dv[move][0]-1,sy+dv[move][1],move)
-    if bmap[sy][sx] in ["@","[","]"]:
-        movetree(ssx,ssy,sx+dv[move][0],sy+dv[move][1],move)
-    if bmap[sy][sx] in ["."] and (ssx!=sx or ssy!=sy):
-        oo=bmap[sy][sx]
-        bmap[sy][sx] = bmap[sy-dv[move][1]][sx-dv[move][0]]
-        bmap[sy-dv[move][1]][sx-dv[move][0]] = oo
-
-# part2: 
-
-for move in dirs:
-    sx=brobx+dv[move][0]
-    sy=broby+dv[move][1]
-    dist=1
-    movable=True
-    if move in ["<",">"]:
-        while bmap[sy][sx] not in [".","#"]:
-#            print("mm",sx,sy)
-            sx+=dv[move][0]
-            sy+=dv[move][1]
-            dist+=1
-        movable=bmap[sy][sx]=="."
-    else: #more complicated, move up/down
-        movable=ismovable(sx,sy,move)
-
-#    print("move",move,sx,sy,dist,move,movable)    
-    if movable:
-        movetree(brobx,broby,brobx,broby,move)
-        broby+=dv[move][1]
-        brobx+=dv[move][0]
-#    print("moveend",brobx,broby)
-#    printmap(bmap)
 
 for x in range(len(bmap[0])-1):
     for y in range(h):
