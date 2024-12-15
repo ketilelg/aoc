@@ -49,7 +49,7 @@ def printmap(m):
 
 def nneighs(rmap):
     #returns number of robots with more than 1 neighbour
-    #2nd gen assumtion: number of neighbors is high when picture
+    #2nd gen assumtion: number of neighbors is high when picture is formed
     nei=0
     for y in range(maxy+1):
         for x in range(maxx+1):
@@ -74,7 +74,7 @@ def testgen(gen):
     n=nneighs(rmap)
     print("gen",gen,n)
     allones=n>int(len(robots)/2)
-    if allones:
+    if n>=100:
         print("\ngen",gen)
         printmap(rmap)
     return allones # assumption (stolen from Stein): no overlapping robots==picture
