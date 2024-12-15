@@ -6,7 +6,7 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
 
 rmap=list(map(list,f1.split("\n")))
 dirs=list(re.findall(r"([<>v^])",f2))
-
+bmap=list(list(l.replace(".","..").replace("#","##").replace("@","@.").replace("O","[]")) for l in f1.split("\n"))
 
 p1=p2=0
 
@@ -18,24 +18,6 @@ def printmap(m):
 
 h=len(rmap)-1
 w=len(rmap[0])-1
-
-bmap=[]
-for l in rmap:
-    bl=[]
-    for c in l:
-        if c==".":
-            bl.append(".")
-            bl.append(".")
-        elif c=="#":
-            bl.append("#")
-            bl.append("#")
-        elif c=="O":
-            bl.append("[")
-            bl.append("]")
-        else:
-            bl.append("@")
-            bl.append(".")
-    bmap.append(bl)
 
 robx=roby=0
 for x in range(w):
@@ -54,18 +36,14 @@ for move in dirs:
     sx=robx
     sy=roby
     dist=0
-#    print("premove",sx,sy)
     while rmap[sy][sx] not in [".","#"]:
-#          print("mm",sx,sy)
           sx+=dv[move][0]
           sy+=dv[move][1]
           dist+=1
-#    print("move",move,sx,sy,dist)    
     if dist > 0 and rmap[sy][sx]!="#":
         nx=sx
         ny=sy
         for i in range(dist):
-#            print("moveit",i,nx,ny)
             ny-=dv[move][1]
             nx-=dv[move][0]
             rmap[sy][sx]=rmap[ny][nx]
@@ -74,8 +52,6 @@ for move in dirs:
         rmap[roby][robx]="."
         roby=ny+dv[move][1]
         robx=nx+dv[move][0]
-#    print("moveend",robx,roby)
-#    printmap(rmap)
 
 for x in range(w):
     for y in range(h):
