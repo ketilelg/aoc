@@ -3,7 +3,7 @@ import sys
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     maze = list(map(list,f.read().strip().split("\n")))
 
-sys. setrecursionlimit(20000)
+sys.setrecursionlimit(20000)
 
 p1=0
 p2=0
