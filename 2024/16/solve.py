@@ -28,6 +28,7 @@ def printscore(m):
         print("")
 
 startx=starty=goalx=goaly=0
+
 visited = [[False]*w for i in range(h)]
 costs = [[{"<":maxcost,"^":maxcost,">":maxcost,"v":maxcost} for j in range(w)] for i in range(h)]
 
@@ -53,6 +54,7 @@ altd={"^":"^<>",">":">^v","v":"v<>","<":"<^v"} #straigh ahead first
 def mazerun(x,y,dir,score,path):
     global p1,maxcost,visited
 #    print("mr",score,len(path))
+    found=False
     visited[y][x]=True
     if costs[y][x][dir]>score:
         costs[y][x][dir]=score
@@ -66,14 +68,19 @@ def mazerun(x,y,dir,score,path):
             sc=1000
         if maze[ny][nx]=="E":
             print("end: ",score,len(path))
+            found=True
             if score<=p1:
                 p1=score
                 rsets.append((score,path.copy())) #remember this path.
-            for s in path:
-                maze[s[1]][s[0]]="O"
-        elif not visited[ny][nx] and score+sc < p1 and costs[ny][nx][d] >= score+sc+1:
-            mazerun(nx,ny,d,score+sc+1,path|{(nx,ny)})
+#            for s in path:
+#                maze[s[1]][s[0]]="O"
+        elif not visited[ny][nx] and maze[ny][nx]!="#" and score+sc < p1 and costs[ny][nx][d] >= score+sc+1:
+            found=mazerun(nx,ny,d,score+sc+1,path|{(nx,ny)})
+        if not found:
+            maze[ny][nx]="#"
+
     visited[y][x]=False
+    return found
 
 mazerun(startx,starty,">",1,{(startx,starty)})
 
