@@ -59,7 +59,7 @@ def mazerun(x,y,dir,score,path):
             visited[ny][nx]=False
 #            maze[ny][nx]="."
         if maze[ny][nx]=="E":
-            print("end: ",score+1,len(path))
+            print("end: ",score+1,len(path),path)
             if score+1<p1:
                 p1=score+1
 #            printmap(maze)
@@ -72,7 +72,6 @@ print("gg",startx,starty,goalx,goaly)
 
 mazerun(startx,starty,">",0,{(startx,starty)})
 
-printmap(maze)
 
 print("sdfsdf",len(rsets))
 
