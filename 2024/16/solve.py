@@ -47,29 +47,35 @@ dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 
 rsets=[]
 
+
+altd={"^":"^<>",">":">^v","v":"v<>","<":"<^v"} #straigh ahead first
+
 def mazerun(x,y,dir,score,path):
     global p1,maxcost,visited
+#    print("mr",score,len(path))
     visited[y][x]=True
-    for d in "<^>v":
+    if costs[y][x][dir]>score:
+        costs[y][x][dir]=score
+
+
+    for d in altd[dir]:
         sc=0
-        if costs[y][x][dir]>score:
-            costs[y][x][dir]=score
         nx=x+dv[d][0]
         ny=y+dv[d][1]
         if d != dir:
-            sc+=1000
-        if not visited[ny][nx] and maze[ny][nx]=="." and score+sc+1 < p1 and costs[ny][nx][d] > score+sc:
-#            visited[ny][nx]=True
-            mazerun(nx,ny,d,score+sc+1,path|{(nx,ny)})
-#            visited[ny][nx]=False
+            sc=1000
         if maze[ny][nx]=="E":
-            print("end: ",score+1,len(path))
-            if score+1<=p1:
-                p1=score+1
-                rsets.append((score+1,path.copy())) #remember this path. possible winning
+            print("end: ",score,len(path))
+            if score<=p1:
+                p1=score
+                rsets.append((score,path.copy())) #remember this path.
+            for s in path:
+                maze[s[1]][s[0]]="O"
+        elif not visited[ny][nx] and score+sc < p1 and costs[ny][nx][d] >= score+sc+1:
+            mazerun(nx,ny,d,score+sc+1,path|{(nx,ny)})
     visited[y][x]=False
 
-mazerun(startx,starty,">",0,{(startx,starty)})
+mazerun(startx,starty,">",1,{(startx,starty)})
 
 # printscore(costs)
 
@@ -88,5 +94,3 @@ printmap(maze)
 
 print("1:",p1)
 print("2:",len(seats)+1)
-# 540 too low
-# 644 too low
