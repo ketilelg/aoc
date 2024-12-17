@@ -43,7 +43,7 @@ def runit(program,rega,regb,regc):
                 rega = rega // (2 ** combo(operand))
                 ip+=2
             case "1": #bxl
-                regb=int(regb) ^ int(operand)
+                regb=regb ^ operand
                 ip+=2
             case "2": #bst
                 regb=combo(operand) % 8
@@ -54,7 +54,7 @@ def runit(program,rega,regb,regc):
                 else:
                     ip+=2
             case "4": #bxc
-                regb=int(regb) ^ int(regc)
+                regb=regb ^ regc
                 ip+=2
             case "5": #out
                 out=out+str(combo(operand)%8)
@@ -88,12 +88,18 @@ tpr=""
 pl=len(pp)
 step=1
 p2=0
+tests=0
 while tpr!= pp:
     p2+=step
+    tests+=1
     tpr=runit(program,p2,regb,regc)
     ml=rlmatch(pp,tpr)
     tl=len(tpr)
-    step=2**(3*(tl-ml-1))
-#    print("rr",p2,pp,"-",tpr,"-",len(tpr),rlmatch(pp,tpr))
+#    step=8**(max(0,tl-ml-1))
+    if tl!= ml:
+        step=8**(tl-ml-1)
+    else:
+        print("rr",p2,pp,"-",tpr,"-",tl,ml,step)
+        step=1
 
-print("2:",int(p2))
+print("\n2:",p2,tests)
