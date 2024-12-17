@@ -18,14 +18,6 @@ for l in inp:
 p1=""
 p2=0
 
-ip=0 # inwstruction pointer
-
-print("regs,p",rega,regb,regc,program)
-
-
-
-
-
 def runit(program,rega,regb,regc):
     def combo(op):
         if op < 4: 
@@ -40,18 +32,18 @@ def runit(program,rega,regb,regc):
             print("illegal combo op")
             exit()
 
-    out=[]
+    out=""
     ip=0
     while ip < len(program):
         opcode=program[ip]
         operand=int(program[ip+1])
-#        print("dd",opcode,operand,rega,regb,regc,ip)
+#        print("dd",program,opcode,operand,rega,regb,regc,ip)
         match str(opcode):
             case "0": #adv
                 rega = rega // (2 ** combo(operand))
                 ip+=2
             case "1": #bxl
-                regb=regb ^ operand
+                regb=int(regb) ^ int(operand)
                 ip+=2
             case "2": #bst
                 regb=combo(operand) % 8
@@ -62,11 +54,10 @@ def runit(program,rega,regb,regc):
                 else:
                     ip+=2
             case "4": #bxc
-                regb=regb ^ regc
+                regb=int(regb) ^ int(regc)
                 ip+=2
             case "5": #out
-                out.append(str(combo(operand)%8)) # +","
-#                print("oo",out,operand,combo(operand))
+                out=out+str(combo(operand)%8)
                 ip+=2
             case "6": #bdv
                 regb = rega // (2 ** combo(operand))
@@ -74,31 +65,35 @@ def runit(program,rega,regb,regc):
             case "7": #cdv
                 regc = rega // (2 ** combo(operand))
                 ip+=2
-    return ",".join(out)
-
-# 375364177 wrong
-# 627231605 wrong
+    return out
 
 p1=runit(program,rega,regb,regc)
 
-print("1:",p1)
+print("1:",",".join(p1))
 
-pp=",".join(program)
-print("pp",pp)
+pp="".join(program)
 
-# observasjon: lengde output stiger med størrelse input. start med å gange med 10 til vi har passe lengde:
+def rlmatch(s1,s2):
+    mm=0
+    f=False
+    while mm < len(s1) and mm<len(s2) and s1[-(mm+1):]==s2[-(mm+1):]:
+        mm+=1
+        f=True
+    return mm
+
 p2=1
-while(len(runit(program,p2,regb,regc))<len(pp)):
-    p2*=2
-    print("rr",p2,pp,runit(program,p2,regb,regc))
+step=1
 
-p2=p2//2
+tpr=""
+pl=len(pp)
+step=1
+p2=0
+while tpr!= pp:
+    p2+=step
+    tpr=runit(program,p2,regb,regc)
+    ml=rlmatch(pp,tpr)
+    tl=len(tpr)
+    step=2**(3*(tl-ml-1))
+#    print("rr",p2,pp,"-",tpr,"-",len(tpr),rlmatch(pp,tpr))
 
-
-while runit(program,p2,regb,regc) != pp:
-    p2+=1
-    print("rr",p2,pp,runit(program,p2,regb,regc))
-
-print("2:",p2)
-# 1 000 000 000 too low
-# 37 592 207 023 419 too low.. (?)
+print("2:",int(p2))
