@@ -49,10 +49,10 @@ def mazerun(maze,x,y,score):
     global p1
     dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 #    print("mr",score*" ",x,y,score)
-    if x==w+1 and y==h+1:
-        return True
-    found=False
     maze[y][x]=score
+#    if x==w+1 and y==h+1:
+#        return True
+    found=False
     score+=1
     for d in dv:
         nx=x+dv[d][0]
@@ -62,15 +62,34 @@ def mazerun(maze,x,y,score):
 
     return found
 
-def mazerun2(x,y,score):
-    #find A path?
-    global p1,maze
+def dmazerun(maze,sx,sy,tx,ty):
+    #find best path, dijstra?
+    global p1
     dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 #    print("mr",score*" ",x,y,score)
-    if x==w+1 and y==h+1:
+    maze[y][x]=score
+#    if x==w+1 and y==h+1:
+#        return True
+    found=False
+    score+=1
+    for d in dv:
+        nx=x+dv[d][0]
+        ny=y+dv[d][1]
+        if maze[ny][nx]>=0 and score < maze[ny][nx]:
+            found = found or mazerun(maze,nx,ny,score)
+
+    return found
+
+
+def mazerun2(x,y,score):
+    #find A path, nevermind cost
+    global p1,maze
+    dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}0
+#    print("mr",score*" ",x,y,score)
+    maze[y][x]=score
+    if x==w and y==h:
         return True
     found=False
-    maze[y][x]=score
     score+=1
     for d in dv:
         nx=x+dv[d][0]
@@ -86,25 +105,30 @@ for i in range(runl):
     y=memfaults[i][1]
     maze[y][x]=-1
 
-mazerun(maze,1,1,0)
+#mazerun(maze,1,1,0)
+p1=maze[w][h]
 
-print("1:",maze[w][h])
-
-solfound=True
-while solfound:
+lowsearch=runl+1
+highsearch=len(memfaults)-1
+while lowsearch<highsearch:
+    runl=int((highsearch+lowsearch)/2)
+    # optimize by binary search..
     maze=[[-1] + ([999999] * w) + [-1] for i in range(h)]
     maze.append([-1]*(w+2))
     maze.insert(0,[-1]*(w+2))
-    runl+=1
     for i in range(runl):
         x=memfaults[i][0]
         y=memfaults[i][1]
         maze[y][x]=-1
-    solfound=mazerun2(1,1,0)
-    solfound=maze[h][w]<999999
-#    print("dsf",w,h,maze[h][w],solfound,i,memfaults[i])
-    p2=str(memfaults[i][0])+","+str(memfaults[i][1])
+    if mazerun2(1,1,0):
+        lowsearch=runl+1
+    else:
+        highsearch=runl-1
+    print("dsf",maze[h][w],i,memfaults[i],lowsearch,highsearch)
 
+p2=str(memfaults[lowsearch][0])+","+str(memfaults[lowsearch][1])
+
+print("1:",p1)
 print("2:",p2)
 
 
