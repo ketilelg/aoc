@@ -32,6 +32,7 @@ print("rxy",robx,roby)
 
 dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 
+
 def ismovable(bmap,sx,sy,move):
     if bmap[sy][sx] == "[":
         return (ismovable(bmap,sx+dv[move][0],sy+dv[move][1],move) and 
