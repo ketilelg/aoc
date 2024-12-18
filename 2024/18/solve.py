@@ -45,9 +45,10 @@ def printmap(m):
 
 
 def mazerun(maze,x,y,score):
+    #find best path
     global p1
     dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
-#    print("mr",score,len(path))
+#    print("mr",score*" ",x,y,score)
     if x==w+1 and y==h+1:
         return True
     found=False
@@ -61,7 +62,23 @@ def mazerun(maze,x,y,score):
 
     return found
 
-print("mm",minx,maxx,miny,maxy,memfaults)
+def mazerun2(x,y,score):
+    #find A path?
+    global p1,maze
+    dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
+#    print("mr",score*" ",x,y,score)
+    if x==w+1 and y==h+1:
+        return True
+    found=False
+    maze[y][x]=score
+    score+=1
+    for d in dv:
+        nx=x+dv[d][0]
+        ny=y+dv[d][1]
+        if maze[ny][nx]==999999:
+            found = found or mazerun2(nx,ny,score)
+
+    return found
 
 
 for i in range(runl):
@@ -69,12 +86,10 @@ for i in range(runl):
     y=memfaults[i][1]
     maze[y][x]=-1
 
-printmap(maze)
-
 mazerun(maze,1,1,0)
 
-print("1:",maze[w][h],runl)
-printmap(maze)
+print("1:",maze[w][h])
+
 solfound=True
 while solfound:
     maze=[[-1] + ([999999] * w) + [-1] for i in range(h)]
@@ -85,14 +100,12 @@ while solfound:
         x=memfaults[i][0]
         y=memfaults[i][1]
         maze[y][x]=-1
-    solfound=mazerun(maze,1,1,0)
+    solfound=mazerun2(1,1,0)
     solfound=maze[h][w]<999999
-#    printmap(maze)
-    print("dsf",w,h,maze[h][w],solfound,i,memfaults[i-1])
+#    print("dsf",w,h,maze[h][w],solfound,i,memfaults[i])
+    p2=str(memfaults[i][0])+","+str(memfaults[i][1])
 
-# 10,70 wrong (11,71)
-# 35,13 wrong (36,14)
-# dsf 71 71 302 True 1220 [25, 36] - fortsett fra 1219, elns.
+print("2:",p2)
 
 
 
