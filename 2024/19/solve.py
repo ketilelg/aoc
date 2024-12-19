@@ -17,7 +17,7 @@ def designok(design):
         if t==design[:len(t)]:
             if len(t)==len(design):
                 r += 1 #result!
-            elif len(t)<=len(design):
+            elif len(t)<len(design):
                 r = r + designok(design[len(t):])
     return r
 
