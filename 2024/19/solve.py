@@ -14,10 +14,10 @@ p2=0
 def designok(design):
     r=0
     for t in towels:
-        if t==design[:len(t)]:
+        if design.startswith(t):
             if len(t)==len(design):
                 r += 1 #result!
-            elif len(t)<len(design):
+            else:
                 r = r + designok(design[len(t):])
     return r
 
