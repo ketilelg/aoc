@@ -19,6 +19,7 @@ def designok(design,towelmin,towelmax):
                 r+=1
             else:
                 r+= designok(design[i:],towelmin,towelmax)
+    # original solution: works, but 10x slower. 
     # for t in towels:
     #     if design.startswith(t):
     #         if len(t)==len(design):
