@@ -1,4 +1,5 @@
 import sys
+import copy
 
 sys.setrecursionlimit(20000)
 
@@ -22,12 +23,21 @@ memfaults=[]
 
 
 def printmap(m):
-    print("map:")
+#    print("map:")
     for l in m:
         for c in l:
 #            print("|%6d"%c,end="")
             print(c,end="")
         print("<")
+
+
+def printdmap(m):
+#    print("map:")
+    for l in m:
+        for c in l:
+            print("|%6d"%c,end="")
+#            print(c,end="")
+        print("|")
 
 startx=starty=goalx=goaly=0
 for y in range(h):
@@ -39,68 +49,98 @@ for y in range(h):
             goalx=x
             goaly=y
 
+dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 
-def mazerun(maze,x,y,score):
-    #find best path
-    global p1
-    dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
-#    print("mr",score*" ",x,y,score)
-    maze[y][x]=score
-#    if x==w+1 and y==h+1:
-#        return True
-    found=False
-    score+=1
-    for d in dv:
-        nx=x+dv[d][0]
-        ny=y+dv[d][1]
-        if maze[ny][nx]>=0 and score < maze[ny][nx]:
-            found = found or mazerun(maze,nx,ny,score)
+dmaze=[[999999]*w for _ in range(h)]
 
-    return found
-
-def dmazerun(maze,sx,sy,tx,ty):
-    #find best path, dijstra?
-    global p1
-    dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
-#    print("mr",score*" ",x,y,score)
-    maze[y][x]=score
-#    if x==w+1 and y==h+1:
-#        return True
-    found=False
-    score+=1
-    for d in dv:
-        nx=x+dv[d][0]
-        ny=y+dv[d][1]
-        if maze[ny][nx]>=0 and score < maze[ny][nx]:
-            found = found or mazerun(maze,nx,ny,score)
-
-    return found
-
-
-def mazerun2(maze,x,y,gx,gy):
-    dv={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
+def mazerun(maze,x,y,gx,gy):
 #    print("mr",score*" ",x,y,score)
     pq=[(0,(x,y))]
+    path=[]
     while pq:
-        printmap(maze)
+#        printmap(maze)
         sc,cur=pq.pop(0)
         for d in dv:
             nx=cur[0]+dv[d][0]
             ny=cur[1]+dv[d][1]
             if maze[ny][nx] in ".E":
                 pq.append((sc+1,(nx,ny)))
+                dmaze[cur[1]][cur[0]]=sc
                 maze[cur[1]][cur[0]]=d
+                path.append((d,cur[0],cur[1]))
                 if nx==gx and ny==gy:
-                    return sc
+                    dmaze[ny][nx]=sc+1
+#                    print("eee",path)
+                    return path,sc
 
-printmap(maze)
-print("sx",startx,starty,goalx,goaly)
 
-print("mm",mazerun2(maze,startx,starty,goalx,goaly))
 
-printmap(maze)
+
+omaze=copy.deepcopy(maze)
+cheats={}
+gains={}
+path,score=mazerun(maze,startx,starty,goalx,goaly)
+
+print("ppp",path)
+printdmap(dmaze)
+
+l=0
+for p in path:
+    x=p[1]
+    y=p[2]
+    thiscost=dmaze[y][x]
+    print("p",x,y)
+    for dist in range(1,min(20,abs(goalx-x)+abs(goaly-y)+2)):
+        testpoints=set()
+        for d in dv:
+#            print("  fdsv",d)
+            dx=dv[d][0]
+            dy=dv[d][1]
+            nx=x+dx
+            ny=y+dy
+            if True: # maze[ny][nx]=="#" or dmaze[ny][nx]>thiscost:
+                for i in range(1,dist+1):
+#                    print("   f",i,dist,d,dx,dy,nx,ny)
+                    if d in "^v":
+                        testpoints.add((nx+((dist-i)),ny+(i*dy)))
+                        testpoints.add((nx-((dist-i)),ny+(i*dy)))
+                    else:
+                        testpoints.add((nx+(i*dx),ny+((dist-i))))
+                        testpoints.add((nx+(i*dx),ny-((dist-i))))
+#                print("   dd",dist,testpoints)
+        for tp in testpoints:
+            ey=tp[1]
+            ex=tp[0]
+#            print("  tt",ex,ey,thiscost,dmaze[ey][ex])
+            if 0<ex<w and 0<ey<h and thiscost+dist+1 < dmaze[ey][ex] < 999999:
+    #            cheats[(nx,ny)]=score-sc
+                gain=dmaze[ey][ex]-thiscost-dist-1
+                print("testet cheat at ",x,y,ex,ey,dx,dy,thiscost,dmaze[ey][ex],gain)
+                if not gain in gains:
+                    gains[gain]=1
+                else:
+                    gains[gain]+=1
+                if gain >= 100:
+                    if dist==1:
+                        p1+=1
+                    p2+=1
+    l+=1
+
+#print("gg",gains)
+
+
+    # se etter om det kan jukses her:
+
+# print("mm",len(path),path)
+
+# for c in cheats:
+#     print("cheat:",cheats[c],c)
+
+# printmap(maze)
 print("1:",p1)
 print("2:",p2)
+# 846060 too low
+# 993728 too low
 
 
 
