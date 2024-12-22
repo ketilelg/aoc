@@ -34,7 +34,7 @@ def gencstr(num):
         prices.append(ones)
         iters+=1
     
-    return changes,prices,chstrs
+    return num,changes,prices,chstrs
 
 p1=p2=0
 p2r=[]
@@ -42,8 +42,9 @@ changes=[]
 prices=[]
 css=defaultdict(int)
 for n in inp:
-    p1+=solve(n,2000)
-    c,p,cs=gencstr(n)
+#    p1+=solve(n,2000)
+    n,c,p,cs=gencstr(n)
+    p1+=n
     changes.append(c)
     prices.append(p)
     for ccc in cs:
