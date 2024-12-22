@@ -11,37 +11,37 @@ def solve(num,gens):
         num= 16777215 & ((num<<11)^num)
     return num        
 
-def solve2(num,tc):
-    iters=0
+# def solve2(num,tc):
+#     iters=0
 
-    changes=[]
-    while iters<4:
-        pnum=num
-        num= 16777215 & ((num<<6)^num)
-        num= 16777215 & ((num>>5)^num)
-        num= 16777215 & ((num<<11)^num)
-        ones=num%10
-        pones=pnum%10
-        changes.append(ones-pones)
-        iters+=1
-#        print("cc",changes)
-    while iters<2000 and tc!=changes:
-        pnum=num
-        num= 16777215 & ((num<<6)^num)
-        num= 16777215 & ((num>>5)^num)
-        num= 16777215 & ((num<<11)^num)
-        ones=num%10
-        pones=pnum%10
-        changes.pop(0)
-        changes.append(ones-pones)
-#        print(" s2l",ones,pones,changes,iters)
-        iters+=1
+#     changes=[]
+#     while iters<4:
+#         pnum=num
+#         num= 16777215 & ((num<<6)^num)
+#         num= 16777215 & ((num>>5)^num)
+#         num= 16777215 & ((num<<11)^num)
+#         ones=num%10
+#         pones=pnum%10
+#         changes.append(ones-pones)
+#         iters+=1
+# #        print("cc",changes)
+#     while iters<2000 and tc!=changes:
+#         pnum=num
+#         num= 16777215 & ((num<<6)^num)
+#         num= 16777215 & ((num>>5)^num)
+#         num= 16777215 & ((num<<11)^num)
+#         ones=num%10
+#         pones=pnum%10
+#         changes.pop(0)
+#         changes.append(ones-pones)
+# #        print(" s2l",ones,pones,changes,iters)
+#         iters+=1
     
-#    print("s2r",iters,ones)
-    if tc==changes:
-        return(ones)
-    else:
-        return(0)
+# #    print("s2r",iters,ones)
+#     if tc==changes:
+#         return(ones)
+#     else:
+#         return(0)
 
 def gencstr(num):
     #returns changestr, and matching pricelist for a given num
