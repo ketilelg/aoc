@@ -1,0 +1,51 @@
+in: ^^^A<AvvvA>A
+
+res: <AAA>A<v<A>^>Av<AAA>^AvA^A
+
+ <   #move to ^
+ A   #^
+ A   #^
+ A   #^
+ >   # move to A
+ A   # A
+ <v< # move to <
+ A   # <
+ >^> # move to A
+ A   # A
+ v<  # move to v
+ A   # v
+ A   # v
+ A   # v
+ >^  # move to A
+ A   # A
+ v   # move to >
+ A   # >
+ ^   # move to A
+ A   # A
+
+moves:
+
+A-<:v<<  *
+A-^:<
+A->:v
+A-v:<v   *
+
+<-A:>>^  *
+<-^:>^   *
+<->:>>
+<-v:>
+
+^-A:>
+^->:>v   *
+^-v:v
+^-<:v<   *
+
+>-A:^
+>-v:<
+>-<:<<
+>-^:<^   *
+
+v-A:^>   *
+v-<:<
+v-^:^
+v->:>
