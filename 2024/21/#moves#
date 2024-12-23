@@ -1,0 +1,57 @@
+in:     ^^^A<AvvvA>A
+
+3A1A3A1A
+
+res:    <AAA>A<v<A>^>Av<AAA>^AvA^A
+
+1A0A0A0A1A3A3A2A0A0A2A1A1A
+
+resres: <v<A>>^AAAvA^A<vA<AA>>^AvAA<^A>A<vA<A>^>AAA<A>vA^Av<A>^A<A>A
+
+ <   #move to ^
+ A   #^
+ A   #^
+ A   #^
+ >   # move to A
+ A   # A
+ <v< # move to <
+ A   # <
+ >^> # move to A
+ A   # A
+ v<  # move to v
+ A   # v
+ A   # v
+ A   # v
+ >^  # move to A
+ A   # A
+ v   # move to >
+ A   # >
+ ^   # move to A
+ A   # A
+
+moves:
+
+A-<:v<<  *
+A-^:<
+A->:v
+A-v:<v   *
+
+<-A:>>^  *
+<-^:>^   *
+<->:>>
+<-v:>
+
+^-A:>
+^->:>v   *
+^-v:v
+^-<:v<   *
+
+>-A:^
+>-v:<
+>-<:<<
+>-^:<^   *
+
+v-A:^>   *
+v-<:<
+v-^:^
+v->:>
