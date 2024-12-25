@@ -1,4 +1,5 @@
 import sys
+import re
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
@@ -129,7 +130,7 @@ for li in inp:
     rsort=sorted(list(res2),key=len)
     blen=len(rsort[0])
     for i in range(0,10):
-        print("rs1",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
+        print("rs1",i,rsort[i].count("A"),len(rsort[i]),rsort[i],re.findall(r"([<>v^]*A)",rsort[i]))
     res=set()
     ri=0
     while ri<len(rsort) and len(rsort[ri]) == blen:

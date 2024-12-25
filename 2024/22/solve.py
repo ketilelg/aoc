@@ -44,7 +44,6 @@ css=defaultdict(int)
 for n in inp:
 #    p1+=solve(n,2000)
     n,c,p,cs=gencstr(n)
-    p1+=n
     changes.append(c)
     prices.append(p)
     for ccc in cs:
