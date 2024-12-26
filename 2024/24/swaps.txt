@@ -1,0 +1,1 @@
+cpm,ghp,gpr,krs,nks,z10,z21,z33

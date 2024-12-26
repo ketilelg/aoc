@@ -1,6 +1,17 @@
-in: ^^^A<AvvvA>A
+980A
 
-res: <AAA>A<v<A>^>Av<AAA>^AvA^A
+in:     ^^^A<AvvvA>A
+
+3A1A3A1A
+
+	<AAA>Av<<A>>^A<vAAA^>AvA^A
+res:    <AAA>A<v<A>^>Av<AAA>^AvA^A
+
+1A0A0A0A1A3A3A2A0A0A2A1A1A
+
+resres: <v<A>>^AAAvA^A<vA<AA>>^AvAA<^A>A<vA<A>^>AAA<A>vA^Av<A>^A<A>A
+
+
 
  <   #move to ^
  A   #^
@@ -49,3 +60,35 @@ v-A:^>   *
 v-<:<
 v-^:^
 v->:>
+
+
+
+add:
+
+z0 = x0^y0
+z1 = x1^y1^(x0&y0)
+z2 = x2^y2^(x1&y1)^(x0&y0) (sdfsdf)
+z3 =
+
+1 0
+2 1
+4 2
+8 3
+16 4
+32 5
+64 6
+128 7
+256 8
+512 9
+1024 10
+2048 11
+
+
+feil verdier:
+10
+	z10 <->
+21
+	
+33
+39
+

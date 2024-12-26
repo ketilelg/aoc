@@ -6,6 +6,25 @@ from itertools import combinations
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     f1,f2 = f.read().strip().split("\n\n")
 
+# digraph graphname {
+#     a -> b -> c;
+#     b -> d;
+# }
+# b [shape=box];
+
+# print("digraph jul {")
+# for g in f2.split("\n"):
+#     l,op,r,arr,out=g.split(" ")
+#     if op=="AND":
+#         print(out," [shape=box];")
+#     elif op=="OR":
+#         print(out," [shape=diamond];")
+
+#     print(l,"->",out,";")
+#     print(r,"->",out,";")
+# print("}")
+# exit()
+
 with open("scratch") as scratch:
     scd=scratch.read().strip().split("\n")
 tests=set()
@@ -125,8 +144,47 @@ def nfaults(verbose): #return number of faults, given this set of gates
             nfaults+=1
     return nfaults,fbits
 
+def nfaults2(verbose): #return number of faults, given this set of gates, using diff input
+    nfaults=0
+    fbits=[]
+    for xb in range(nbits): 
+        p2=0
+        for i in range(nbits):
+            wires["x"+f"{i:02d}"]=1 if xb==i else 0
+            wires["y"+f"{i:02d}"]=1 if xb==i else 0
+        for i in gates:
+            if i[0]=="z":
+                if findv(i,False,"")==1:
+                    p2+= 2**(int(i[1:]))
+        if p2 != 2**(xb+1):
+            if verbose:
+                print("xx",xb,p2,2**(xb+1))
+            fbits.append(xb)
+            nfaults+=1
+    return nfaults,fbits
+
 nf,fb=nfaults(True)
 print("nf",nf,fb)
+
+exit()
+gates["hhc"],gates["z21"]=gates["z21"],gates["hhc"]
+gates["ghp"],gates["z33"]=gates["z33"],gates["ghp"]
+gates["tdj"],gates["z10"]=gates["z10"],gates["tdj"]
+
+nf,fb=nfaults(True)
+print("nf",nf,fb)
+gates["hhc"],gates["z21"]=gates["z21"],gates["hhc"]
+gates["ghp"],gates["z33"]=gates["z33"],gates["ghp"]
+gates["tdj"],gates["z10"]=gates["z10"],gates["tdj"]
+
+allpgates=set(gates.keys())
+allpgates.remove("hhc")
+allpgates.remove("z21")
+allpgates.remove("ghp")
+allpgates.remove("z33")
+allpgates.remove("tdj")
+allpgates.remove("z10")
+
 if nf>0:
 #     for g1,g2 in combinations(tests,2):
 #         gates[g1],gates[g2]=gates[g2],gates[g1]
@@ -145,15 +203,20 @@ if nf>0:
 #                     print("hoihoi",g1,g2,g3,g4,tnf,tfb2)
 #                 gates[g3],gates[g4]=gates[g4],gates[g3]
 #         gates[g1],gates[g2]=gates[g2],gates[g1]
-    for p in combinations(tests,4):
-        for pp in p:
-            gates[pp[0]],gates[pp[1]]=gates[pp[1]],gates[pp[0]]
-        tnf,tfb=nfaults(False)
-#        print("cc",p,tnf,tfb)
+    for g1,g2 in combinations(allpgates,2):
+        gates[g1],gates[g2]=gates[g2],gates[g1]
+        # print("ppp",p)
+        # for pp in p:
+        #     print
+        #     gates[pp[0]],gates[pp[1]]=gates[pp[1]],gates[pp[0]]
+        tnf,tfb=nfaults2(False)
+        print("cc",g1,g2,tnf,tfb)
         if tnf==0:
-            print("hoi",p,tnf,nf,tfb)
-        for pp in p:
-            gates[pp[0]],gates[pp[1]]=gates[pp[1]],gates[pp[0]]
+            print("hoi",g1,g2,tnf,nf,tfb)
+            exit()
+        gates[g1],gates[g2]=gates[g2],gates[g1]
+        # for pp in p:
+        #     gates[pp[0]],gates[pp[1]]=gates[pp[1]],gates[pp[0]]
         
 
 # for xb in range(nbits): 
