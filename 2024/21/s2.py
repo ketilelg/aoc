@@ -137,7 +137,11 @@ for li in inp:
     ri=0
     while ri<len(rsort) and len(rsort[ri]) == blen:
 #        print("r2",ri,len(rsort[ri]))
-        res = res | moves(arrk,arrp,list(rsort[ri]))
+        r3=moves(arrk,arrp,list(rsort[ri]))
+        res = res | r3
+        print("r3",len(rsort[ri]),rsort[ri])
+        for r4 in r3:
+            print("   r4:",len(r4),r4)
 #        print("rrr3",len(res))
         ri+=1
 
