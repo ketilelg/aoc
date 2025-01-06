@@ -51,14 +51,14 @@ def npfromto(k,sx,sy,tx,ty):
     retstr=""
 #    if sx==tx: #up/down:
 #        print(" UD")
+    if sx>tx:
+        retstr+="<"*abs(sx-tx)
     if sx<tx: #r
         retstr+=">"*abs(tx-sx)
     if sy<ty:
         retstr+="^"*abs(ty-sy)
     if sy>ty:
         retstr+="v"*abs(sy-ty)
-    if sx>tx:
-        retstr+="<"*abs(sx-tx)
     return retstr
 
 def numfromto(k,n,f,t):
