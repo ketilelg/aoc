@@ -1,0 +1,43 @@
+mmm <A^A>^^AvvvA
+rrr <<vA>>^A<A>AvA<^AA>A<vAAA>^A
+029A: <vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A
+029A  <<vAA>A>^AvAA<^A>A<<vA>>^AvA^A<vA>^A<<vA>^A>AAvA^A<<vA>A>^AAAvA<^A>A
+(rett svar)
+
+mmm ^^^A<AvvvA>A
+rrr <AAA>A<<vA>>^A<vAAA>^AvA^A
+980A: <v<A>>^AAAvA^A<vA<AA>>^AvAA<^A>A<v<A>A>^AAAvA<^A>A<vA>^A<A>A
+980A  <<vA>>^AAAvA^A<<vAA>A>^AvAA<^A>A<<vA>A>^AAAvA<^A>A<vA>^A<A>A
+(rett svar)
+
+mmm <<^A^^A>>AvvvA
+rrr <<vAA>^A>A<AA>AvAA^A<vAAA>^A
+179A: <v<A>>^A<vA<A>>^AAvAA<^A>A<v<A>>^AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A
+179A  <<vAA>A>^AAvA<^A>AvA^A<<vA>>^AAvA^A<vA>^AA<A>A<<vA>A>^AAAvA<^A>A
+(feil svar, for lite)
+
+mmm <<^^A>A>AvvA
+rrr <<vAA>^AA>AvA^AvA^A<vAA>^A
+456A: <v<A>>^AA<vA<A>>^AAvAA<^A>A<vA>^A<A>A<vA>^A<A>A<v<A>A>^AAvA<^A>A
+456A  <<vAA>A>^AAvA<^A>AAvA^A<vA>^A<A>A<vA>^A<A>A<<vA>A>^AAvA<^A>A
+(feil svar, for lite)
+
+mmm ^A<<^^A>>AvvvA
+rrr <A>A<<vAA>^AA>AvAA^A<vAAA>^A
+379A: <v<A>>^AvA^A<vA<AA>>^AAvA<^A>AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A
+379A  <<vA>>^AvA^A<<vAA>A>^AAvA<^A>AAvA^A<vA>^AA<A>A<<vA>A>^AAAvA<^A>A
+(feil svar, for lite)
+
+
+l 029A
+lli 029 68
+l 980A
+lli 980 60
+l 179A
+lli 179 64
+l 456A
+lli 456 60
+l 379A
+lli 379 64
+1: 123844
+2: 0

@@ -6,6 +6,7 @@ from itertools import combinations
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     f1,f2 = f.read().strip().split("\n\n")
 
+# produce dot-output. manual solution.. 
 # digraph graphname {
 #     a -> b -> c;
 #     b -> d;
