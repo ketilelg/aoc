@@ -114,6 +114,13 @@ def moves(k,n,keys):
 for li in inp:
     print("l",li)
     l=list(li)
+
+    # gjenta N ganger:
+    #   gjør, for alle *A: (første omgang: kun 1)
+    #       finn moves som passer for klumpen
+    #   bygg beste struktur(er) for neste runde
+    #   defaultdict er fint. 
+    
     res1=moves(numk,nump,l)
     res1sorted=sorted(list(res1),key=len)
     blen=len(res1sorted[0])
@@ -148,7 +155,7 @@ for li in inp:
     rsort=sorted(list(res),key=len)
     blen=len(rsort[0])
     print("bll",blen,len(rsort))
-    for i in range(0,10):
+    for i in range(min(len(rsort),40)):
         print("rs2",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
     for i in range(len(rsort)-10,len(rsort)):
         print("rs2",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
