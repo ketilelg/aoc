@@ -1,4 +1,6 @@
 import sys
+import re
+from collections import defaultdict
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
@@ -112,55 +114,74 @@ def moves(k,n,keys):
 
 
 for li in inp:
-    print("l",li)
+#    print("l",li)
     l=list(li)
 
+    ss=[]
+    ss.append({li:1})
+
+    print("\n\nss",ss)
+
+    for sol in ss:
+        # vi har en "løsning" sol, som er delt opp i delløsninger:
+        for m in sol:
+            print("mm",m)
+            res1=moves(numk,nump,list(m))
+            print("rr",res1)
+            for r in res1:
+                pmoves=re.findall(r"([<>v^]*A)",r)
+                print(" rrr",r,pmoves)
+                for pm in pmoves:
+                    <noe>
+
     # gjenta N ganger:
+    # pmoves=re.findall(r"([<>v^]*A)",r)
     #   gjør, for alle *A: (første omgang: kun 1)
     #       finn moves som passer for klumpen
     #   bygg beste struktur(er) for neste runde
     #   defaultdict er fint. 
-    
-    res1=moves(numk,nump,l)
-    res1sorted=sorted(list(res1),key=len)
-    blen=len(res1sorted[0])
-    print("mmm",res1)
-    r1i=0
-    res2=set()
-    while r1i<len(res1sorted) and len(res1sorted[r1i]) == blen:
-        r2=moves(arrk,arrp,list(res1sorted[r1i]))
-        print("r1",r1i,len(res1sorted[r1i]),res1sorted[r1i])
-        for rrr in r2:
-            print("  r2:",len(rrr),rrr)
-        res2 = res2 | r2
-#        print("rrr2",len(res2))
-        r1i+=1
 
-    rsort=sorted(list(res2),key=len)
-    blen=len(rsort[0])
-    for i in range(len(rsort)):
-        print("rs1",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
-    res=set()
-    ri=0
-    while ri<len(rsort) and len(rsort[ri]) == blen:
-#        print("r2",ri,len(rsort[ri]))
-        r3=moves(arrk,arrp,list(rsort[ri]))
-        res = res | r3
-        print("r3",len(rsort[ri]),rsort[ri])
-        for r4 in r3:
-            print("   r4:",len(r4),r4)
-#        print("rrr3",len(res))
-        ri+=1
+#     res1=moves(numk,nump,l)
 
-    rsort=sorted(list(res),key=len)
-    blen=len(rsort[0])
-    print("bll",blen,len(rsort))
-    for i in range(min(len(rsort),40)):
-        print("rs2",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
-    for i in range(len(rsort)-10,len(rsort)):
-        print("rs2",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
-    print("lli",li[:-1])
-    p1+=blen*int(li[:-1])
+#     res1sorted=sorted(list(res1),key=len)
+#     blen=len(res1sorted[0])
+#     print("mmm",res1)
+#     r1i=0
+#     res2=set()
+#     while r1i<len(res1sorted) and len(res1sorted[r1i]) == blen:
+#         r2=moves(arrk,arrp,list(res1sorted[r1i]))
+#         print("r1",r1i,len(res1sorted[r1i]),res1sorted[r1i])
+#         for rrr in r2:
+#             print("  r2:",len(rrr),rrr)
+#         res2 = res2 | r2
+# #        print("rrr2",len(res2))
+#         r1i+=1
+
+#     rsort=sorted(list(res2),key=len)
+#     blen=len(rsort[0])
+#     for i in range(len(rsort)):
+#         print("rs1",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
+#     res=set()
+#     ri=0
+#     while ri<len(rsort) and len(rsort[ri]) == blen:
+# #        print("r2",ri,len(rsort[ri]))
+#         r3=moves(arrk,arrp,list(rsort[ri]))
+#         res = res | r3
+#         print("r3",len(rsort[ri]),rsort[ri])
+#         for r4 in r3:
+#             print("   r4:",len(r4),r4)
+# #        print("rrr3",len(res))
+#         ri+=1
+
+#     rsort=sorted(list(res),key=len)
+#     blen=len(rsort[0])
+#     print("bll",blen,len(rsort))
+#     for i in range(min(len(rsort),40)):
+#         print("rs2",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
+#     for i in range(len(rsort)-10,len(rsort)):
+#         print("rs2",i,rsort[i].count("A"),len(rsort[i]),rsort[i])
+#     print("lli",li[:-1])
+#     p1+=blen*int(li[:-1])
 
 #    exit()
     # res=set()
