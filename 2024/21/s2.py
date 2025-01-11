@@ -121,25 +121,78 @@ for li in inp:
     ss.append({li:1})
 
     print("\n\nss",ss)
-
+    nsol=[]
     for sol in ss:
         # vi har en "løsning" sol, som er delt opp i delløsninger:
         for m in sol:
-            print("mm",m)
+            print("mm",m,sol[m])
+            mult=sol[m]
             res1=moves(numk,nump,list(m))
             print("rr",res1)
             for r in res1:
+                rdi=defaultdict(int)
                 pmoves=re.findall(r"([<>v^]*A)",r)
                 print(" rrr",r,pmoves)
                 for pm in pmoves:
-                    <noe>
-
+                    rdi[pm]+=mult
+                print(" rre",rdi)
+                nsol.append(rdi)
     # gjenta N ganger:
     # pmoves=re.findall(r"([<>v^]*A)",r)
     #   gjør, for alle *A: (første omgang: kun 1)
     #       finn moves som passer for klumpen
     #   bygg beste struktur(er) for neste runde
     #   defaultdict er fint. 
+    minl=1000000000000000000
+    for n in range(len(nsol)):
+        print("nsol",n,nsol[n],end="")
+        l=0
+        for p in nsol[n]:
+            l+=len(p)*nsol[n][p]
+        print("l:",l)
+        if l<minl:
+            minl=l
+
+
+
+
+    print("\n\nss2",ss)
+    ss=nsol
+    nsol=[]
+    for sol in ss:
+        print(" sol22",sol)
+        # vi har en "løsning" sol, som er delt opp i delløsninger:
+        for m in sol:
+            print("  mm",m,sol[m])
+            mult=sol[m]
+            res1=moves(arrk,arrp,list(m))
+            print("  rr2",res1)
+            for r in res1:
+                rdi=defaultdict(int)
+                pmoves=re.findall(r"([<>v^]*A)",r)
+                print("   rrr2",r,pmoves)
+                for pm in pmoves:
+                    rdi[pm]+=mult
+                print("   rre2",rdi)
+                nsol.append(rdi)
+    # gjenta N ganger:
+    # pmoves=re.findall(r"([<>v^]*A)",r)
+    #   gjør, for alle *A: (første omgang: kun 1)
+    #       finn moves som passer for klumpen
+    #   bygg beste struktur(er) for neste runde
+    #   defaultdict er fint. 
+    minl=1000000000000000000
+    for n in range(len(nsol)):
+        print("nsol2",n,nsol[n],end="")
+        l=0
+        for p in nsol[n]:
+            l+=len(p)*nsol[n][p]
+        print("l:",l)
+        if l<minl:
+            minl=l
+
+
+
 
 #     res1=moves(numk,nump,l)
 
