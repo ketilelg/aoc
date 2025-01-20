@@ -21,7 +21,7 @@ for i in range(int(len(inp)/3)):
         for k in range(3):
             sides.append(int(tsides[k][j]))
         sides.sort()
-        print("ss",sides)
+#        print("ss",sides)
         if sides[0]+sides[1]>sides[2]:
             p2+=1
 
