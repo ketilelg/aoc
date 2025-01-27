@@ -19,13 +19,29 @@ newm=set()
 
 for rr in rules:
     r,l=rr
-    print("rule",r,l)
+#    print("rule",r,l)
     for i in re.finditer(r,molecule):
         s,e=i.span()
-        print("i",molecule[:s]+l+molecule[e:])
+#        print("i",molecule[:s]+l+molecule[e:])
         newm.add(molecule[:s]+l+molecule[e:])
 
 print("1:",len(newm)) #615 too high 
 
+def myf(i):
+    return len(i[1])
+
+rules.sort(key=myf)
+
+while molecule != "e":
+    for rr in rules:
+        l,r=rr
+#        print("rule",r,l)
+        for i in re.finditer(r,molecule):
+            s,e=i.span()
+            print("i",molecule[:s]+l+molecule[e:])
+            mm=molecule[:s]+l+molecule[e:]
+            molecule=mm
+            p2+=1
+    print("molecule",molecule)
 
 print("2:",p2)
