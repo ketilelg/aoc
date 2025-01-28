@@ -1,4 +1,3 @@
-#import numpy
 import math
 inp=36000000
 
@@ -13,7 +12,7 @@ i=1
 r=0
 while r<inp:
     r=sum(get_factors(i))*10
-#    print("i",i,sum(get_factors(i))*10)
+    print("i",i,sum(get_factors(i))*10)
     i+=1
 
 print("1:",i-1)
@@ -22,9 +21,6 @@ i=1
 r=0
 while r<inp:
     r=sum(filter(lambda x: x>= i/50,get_factors(i)))*11
-#    print("i",i,sum(get_factors(i))*10)
     i+=1
 
 print("2:",i-1)
-
-# 831600 2*2*5*5*2*2*2*3*3*113
