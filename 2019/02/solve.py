@@ -6,6 +6,7 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
 
 p1=p2=0
 
+pp=inp.copy()
 
 def run(prog):
     pc=0
@@ -20,8 +21,18 @@ def run(prog):
             case 99:
                 pc=len(prog)
 
-inp[1]=12
-inp[2]=2
-run(inp)
-print("1:",inp[0])
+pp[1]=12
+pp[2]=2
+run(pp)
+print("1:",pp[0])
+
+for n in range(100):
+    for v in range(100):
+        pp=inp.copy()
+        pp[1]=n
+        pp[2]=v
+        run(pp)
+        if pp[0]==19690720:
+            print("2:",n,v,(100*n)+v)
+
 print("2:",p2)
