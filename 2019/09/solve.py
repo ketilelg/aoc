@@ -13,6 +13,7 @@ for i,c in enumerate(inp):
     pp[i] = c
 
 def run(prog,input):
+    output=[]
     pc=0
     relbase=0
     def parm(mode,param):
@@ -65,6 +66,7 @@ def run(prog,input):
                 pc+=2
             case 4: #output
                 print("out:",parm(params%10,prog[pc+1]))
+                output.append(parm(params%10,prog[pc+1]))
                 pc+=2
             case 5: #jmpift
                 if parm(params%10,prog[pc+1]) != 0:
@@ -94,15 +96,14 @@ def run(prog,input):
             case 99: #halt
                 pc=len(prog)
 #        print("sdf",prog)            
+    return output
 
-
-print("1:") #203 too low
-run(pp,[1])
+print("1:",run(pp,[1])) #203 too low
+# run(pp,[1])
 
 pp=defaultdict(int)
 
 for i,c in enumerate(inp):
     pp[i] = c
 
-print("2:")
-run(pp,[2])
+print("2:",run(pp,[2]))
