@@ -9,8 +9,6 @@ p1=p2=0
 
 pp=defaultdict(int)
 
-for i,c in enumerate(inp):
-    pp[i] = c
 
 dirs={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
 ldir={"<":"v",
@@ -21,13 +19,11 @@ rdir={"<":"^",
       "^":">",
       ">":"v",
       "v":"<"}
-posx=0
-posy=0
-dir="^"
-cmap=defaultdict(tuple)
+
 
 def printmap():
     minx=maxx=miny=maxy=0
+#    print("pm",cmap)
     for c in cmap:
         x,y=c
         if x < minx:
@@ -44,7 +40,7 @@ def printmap():
             if x==posx and y==posy:
                 print(dir,end="")
             elif (x,y) in cmap:
-                if cmap[(x,y)]==1:
+                if cmap[(x,y)]>0:
                     print("#",end="")
                 else:
                     print(".",end="")
@@ -98,6 +94,7 @@ def run(prog):
                 pc+=4
             case 3: #input
                 prog[paddr(params%10,prog[pc+1])]=cmap[(posx,posy)]
+#                print("in:",posx,posy,params%10,prog[pc+1],cmap[(posx,posy)])
 #                 if input:
 #                     prog[paddr(params%10,prog[pc+1])]=input.pop()
 # #                    print("input",prog[parm(params%10,prog[pc+1])],params,relbase,prog[pc+1],parm(params%10,prog[pc+1]))
@@ -108,7 +105,7 @@ def run(prog):
 #                print("input",prog[pc+1],prog[prog[pc+1]])
                 pc+=2
             case 4: #output
-                print("out:",parm(params%10,prog[pc+1]),outstate)
+#                print("out:",parm(params%10,prog[pc+1]),outstate)
 #                output.append(parm(params%10,prog[pc+1]))
                 if outstate==0:
                     if parm(params%10,prog[pc+1]) == 1:
@@ -117,7 +114,7 @@ def run(prog):
                         cmap[(posx,posy)]=0
                     outstate=1
                 elif outstate==1: #turn and move
-                    if parm(params%10,prog[pc+1]) == 1:
+                    if parm(params%10,prog[pc+1]) == 0:
                         #turn left
                         dir=ldir[dir]
                     else:
@@ -128,7 +125,7 @@ def run(prog):
                     posy+=dy
                     outstate=0
                 pc+=2
-                printmap()
+#                printmap()
             case 5: #jmpift
                 if parm(params%10,prog[pc+1]) != 0:
                     pc=parm((params//10) % 10,prog[pc+2])
@@ -159,13 +156,37 @@ def run(prog):
 #        print("sdf",prog)            
     return output
 
+for i,c in enumerate(inp):
+    pp[i] = c
+
+posx=0
+posy=0
+dir="^"
+cmap=defaultdict(int)
+
 run(pp)
 
+printmap()
+
 p1=len(cmap)
+
+
 
 # sum(cmap.values())
 
 print("1:",p1)
-# 101 too low
+# 101 too low. 249 too low?
+for i,c in enumerate(inp):
+    pp[i] = c
 
-print("2:",p1)
+posx=0
+posy=0
+dir="^"
+cmap=defaultdict(int)
+cmap[(0,0)]=1
+
+run(pp)
+
+printmap()
+
+print("2:",p2)
