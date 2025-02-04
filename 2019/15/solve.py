@@ -6,8 +6,21 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = list(map(int,f.read().strip().split(",")))
 
 
+dirs={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
+dirc={"<":3,"^":1,">":4,"v":2}
+ldir={"<":"v",
+      "^":"<",
+      ">":"^",
+      "v":">"}
+rdir={"<":"^",
+      "^":">",
+      ">":"v",
+      "v":"<"}
+
+
 p1=p2=0
-cmap=defaultdict(int)
+cmap=defaultdict(str)
+dmap=defaultdict(int) #shortest walk from start
 
 def printmap():
     print('\033c', end='')
@@ -27,21 +40,28 @@ def printmap():
     for y in range(miny-1,maxy+2):
         for x in range(minx-1,maxx+2):
             if (x,y) in cmap:
-                if cmap[(x,y)]>0:
-                    print(cmap[(x,y)],end="")
-                else:
-                    print(".",end="")
+                print(cmap[(x,y)],end="")
             else:
-                print(" ",end="")
+                print(".",end="")
         print("")
 
+    for y in range(miny-1,maxy+2):
+        for x in range(minx-1,maxx+2):
+            if (x,y) in dmap:
+                print(f'{dmap[(x,y)]:4d}',end="")
+            else:
+                print("....",end="")
+        print("")
+
+
 def run(prog):
-    global cmap
+    global cmap,dmap,p1
     output=[]
-    outstate=0 #0,1,2
     posx=posy=0
-    bx=by=0 #ball position
-    px=py=0 # paddle position 
+    dmap[(0,0)]=0
+    moves=0
+    dir="^"
+
     pc=0
     relbase=0
     def parm(mode,param):
@@ -83,37 +103,44 @@ def run(prog):
                 prog[paddr((params//100)%10,prog[pc+3])]=parm(params%10,prog[pc+1])*parm((params//10) % 10,prog[pc+2])
                 pc+=4
             case 3: #input
-                jdir=0
-                if bx < px:
-                    jdir=-1
-                elif bx > px:
-                    jdir=1
-                prog[paddr(params%10,prog[pc+1])]=jdir
+                prog[paddr(params%10,prog[pc+1])]=dirc[dir]
 #                print("in:",posx,posy,params%10,prog[pc+1],cmap[(posx,posy)])
                 pc+=2
-                printmap()
             case 4: #output
 #                print("out:",parm(params%10,prog[pc+1]),outstate)
 #                output.append(parm(params%10,prog[pc+1]))
                 outval=parm(params%10,prog[pc+1])
-                if outstate==0:
-                    posx=outval
-                    outstate=1
-                elif outstate==1:
-                    posy=outval
-                    outstate=2
-                elif outstate==2: #graphics!
-                    if (posx==-1 and posy==0):
-                        print("score",outval)
+                if outval==0: #hit wall
+                    dx,dy=dirs[dir]
+                    cmap[(posx+dx,posy+dy)]="█"
+                    #turn right
+                    dir=rdir[dir]
+#                    printmap()
+                elif outval==1: #moved
+                    dx,dy=dirs[dir]
+                    moves=dmap[(posx,posy)]
+                    posx+=dx
+                    posy+=dy
+                    if (posx,posy) in dmap:
+                        moves=min(moves,dmap[(posx,posy)])
                     else:
-                        cmap[(posx,posy)]=outval
-                        if outval==3:
-                            px=posx
-                            py=posy
-                        elif outval==4:
-                            bx=posx
-                            by=posy
-                    outstate=0
+                        moves+=1
+                        dmap[(posx,posy)]=moves
+                    cmap[(posx,posy)]=dir
+                    if (posx+dx,posy+dy) in cmap:
+                        dir=ldir[dir]
+#                    printmap()
+                    print("mm",moves)
+                elif outval==2: #moved, hit
+                    dx,dy=dirs[dir]
+                    posx+=dx
+                    posy+=dy
+                    cmap[(posx,posy)]="2"
+                    cmap[(0,0)]="S"
+                    printmap()
+                    print("oxy at ",posx,posy,moves)
+                    p1=moves+1
+                    pc=len(prog)
                 pc+=2
             case 5: #jmpift
                 if parm(params%10,prog[pc+1]) != 0:
@@ -156,19 +183,9 @@ for i,c in enumerate(inp):
 run(pp)
 
 
-p1=sum(filter(lambda x:x==2,cmap.values()))//2
-
-
 
 print("1:",p1)
 
-pp=defaultdict(int)
-for i,c in enumerate(inp):
-    pp[i] = c
+#should do fill here. found answer manually. 
 
-pp[0]=2
-
-run(pp)
-
-
-print("2:",p2)
+print("2:",302) #478 too high. 302 right. 
