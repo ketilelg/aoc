@@ -19,10 +19,15 @@ rdir={"<":"^",
 
 
 p1=p2=0
-cmap=defaultdict(str)
-dmap=defaultdict(int) #shortest walk from start
+# cmap=defaultdict(str)
+# dmap=defaultdict(int) #shortest walk from start
+smap=[]
 
 def printmap():
+    for i,l in enumerate(smap):
+        print(i,":",l,"<-")
+
+def printmapxx():
     print('\033c', end='')
     minx=maxx=miny=maxy=0
 #    print("pm",cmap)
@@ -56,13 +61,14 @@ def printmap():
         print("")
 
 
-def run(prog):
-    global cmap,dmap,p1
+def run(prog,input):
+    global smap,p1
     output=[]
-    posx=posy=0
-    dmap[(0,0)]=0
-    moves=0
-    dir="^"
+#    posx=posy=0
+#    dmap[(0,0)]=0
+#    moves=0
+#    dir="^"
+    ostr=""
 
     pc=0
     relbase=0
@@ -105,44 +111,29 @@ def run(prog):
                 prog[paddr((params//100)%10,prog[pc+3])]=parm(params%10,prog[pc+1])*parm((params//10) % 10,prog[pc+2])
                 pc+=4
             case 3: #input
-                prog[paddr(params%10,prog[pc+1])]=dirc[dir]
+                if input:
+                    prog[paddr(params%10,prog[pc+1])]=input.pop(0)
+#                printmap()
+#                prog[paddr(params%10,prog[pc+1])]=0 # dirc[dir]
+#                print("input!")
 #                print("in:",posx,posy,params%10,prog[pc+1],cmap[(posx,posy)])
                 pc+=2
             case 4: #output
-#                print("out:",parm(params%10,prog[pc+1]),outstate)
+#                print("out:",parm(params%10,prog[pc+1]))
 #                output.append(parm(params%10,prog[pc+1]))
                 outval=parm(params%10,prog[pc+1])
-                if outval==0: #hit wall
-                    dx,dy=dirs[dir]
-                    cmap[(posx+dx,posy+dy)]="█"
-                    #turn right
-                    dir=rdir[dir]
-#                    printmap()
-                elif outval==1: #moved
-                    dx,dy=dirs[dir]
-                    moves=dmap[(posx,posy)]
-                    posx+=dx
-                    posy+=dy
-                    if (posx,posy) in dmap:
-                        moves=min(moves,dmap[(posx,posy)])
-                    else:
-                        moves+=1
-                        dmap[(posx,posy)]=moves
-                    cmap[(posx,posy)]=dir
-                    if (posx+dx,posy+dy) in cmap:
-                        dir=ldir[dir]
-#                    printmap()
-                    print("mm",moves)
-                elif outval==2: #moved, hit
-                    dx,dy=dirs[dir]
-                    posx+=dx
-                    posy+=dy
-                    cmap[(posx,posy)]="2"
-                    cmap[(0,0)]="S"
-                    printmap()
-                    print("oxy at ",posx,posy,moves)
-                    p1=moves+1
-                    pc=len(prog)
+                if outval==10:
+                    print("out:",ostr,"<-")
+#                    if ostr=="":
+#                        printmap()
+#                        smap=[]
+                    smap.append(ostr)
+                    ostr=""
+                elif outval < 256:
+                    ostr+=chr(outval)
+#                    print("oo",ostr)
+                else:
+                    print("final out",outval)
                 pc+=2
             case 5: #jmpift
                 if parm(params%10,prog[pc+1]) != 0:
@@ -181,13 +172,25 @@ pp=defaultdict(int)
 for i,c in enumerate(inp):
     pp[i] = c
 
+run(pp,[])
 
-run(pp)
+smap.pop()
+printmap()
+
+for y in range(1,len(smap)-1):
+    for x in range(1,len(smap[0])-1):
+#        print("xy",x,y)
+        if smap[y][x]=="#" and smap[y-1][x]=="#" and smap[y+1][x]=="#" and smap[y][x-1]=="#" and smap[y][x+1]=="#":
+            print("inter",x,y)
+            p1+=(x)*(y)
 
 
+print("1:",p1) 
 
-print("1:",p1)
+pp=defaultdict(int)
+for i,c in enumerate(inp):
+    pp[i] = c
 
-#should do fill here. found answer manually. 
+pp[0]=2
 
-print("2:",302) #478 too high. 302 right. 
+run(pp,list(map(ord,list("A,B,A,B,C,C,B,A,C,A\nL,10,R,8,R,6,R,10\nL,12,R,8,L,12\nL,10,R,8,R,8\nn\n"))))
