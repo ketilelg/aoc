@@ -1,26 +1,12 @@
 import sys
 from collections import defaultdict
-import os
+from functools import cache
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = list(map(int,f.read().strip().split(",")))
 
-
-dirs={"<":(-1,0),"^":(0,-1),">":(1,0),"v":(0,1)}
-dirc={"<":3,"^":1,">":4,"v":2}
-ldir={"<":"v",
-      "^":"<",
-      ">":"^",
-      "v":">"}
-rdir={"<":"^",
-      "^":">",
-      ">":"v",
-      "v":"<"}
-
-
 p1=p2=0
-# cmap=defaultdict(str)
-# dmap=defaultdict(int) #shortest walk from start
+
 smap=[]
 
 def printmap(mmap):
@@ -31,11 +17,6 @@ def printmap(mmap):
 
 def run(prog,input):
     output=[]
-#    posx=posy=0
-#    dmap[(0,0)]=0
-#    moves=0
-#    dir="^"
-#    ostr=""
 
     pc=0
     relbase=0
@@ -80,14 +61,9 @@ def run(prog,input):
             case 3: #input
                 if input:
                     prog[paddr(params%10,prog[pc+1])]=input.pop(0)
-#                printmap()
-#                prog[paddr(params%10,prog[pc+1])]=0 # dirc[dir]
-#                print("input!")
-#                print("in:",posx,posy,params%10,prog[pc+1],cmap[(posx,posy)])
                 pc+=2
             case 4: #output
 #                print("out:",parm(params%10,prog[pc+1]))
-#                output.append(parm(params%10,prog[pc+1]))
                 outval=parm(params%10,prog[pc+1])
                 output.append(outval)
 #                return output
@@ -119,34 +95,78 @@ def run(prog,input):
                 pc+=2
             case 99: #halt
                 pc=len(prog)
-#        print("sdf",prog)            
     return output
 
+cols=50
+rows=50
+start=0
+end=cols
 
 
-
-
-cols=rows=200
-mmap = [[0 for i in range(cols)] for j in range(rows)]
-
-for x in range(cols):
-    for y in range(rows):
+def findse(y):
+    global start,end
+    #return start, end of line at y. (start=first 1, end=first 0)
+    prev=0
+    for x in range(start-1,start+2):
         pp=defaultdict(int)
         for i,c in enumerate(inp):
             pp[i] = c
+        ret=run(pp,[x,y])[0]
+        if prev==0 and ret==1:
+#            print("stst",x)
+            start=x
+            prev=1
+    for x in range(end-2,end+2):
+        pp=defaultdict(int)
+        for i,c in enumerate(inp):
+            pp[i] = c
+        ret=run(pp,[x,y])[0]
+        if prev==1 and ret==0:
+#            print("ee",x)
+            end=x
+            prev=0
+    return start,end
 
-        ret=run(pp,[x,y])
-        mmap[y][x]=ret[0]
-        p1+=ret[0]
+mmap = [[0 for i in range(cols)] for j in range(rows)]
+its=0
+start=0
+end=cols
+for y in range(rows):
+    prev=0
+    for x in range(start,min(cols,end+3)):
+        pp=defaultdict(int)
+        for i,c in enumerate(inp):
+            pp[i] = c
+        ret=run(pp,[x,y])[0]
+        its+=1
+#        print("pp",prev,ret)
+        if prev==0 and ret==1:
+#            print("stst",x)
+            start=x
+        if prev==1 and ret==0:
+#            print("ee",x)
+            end=x
+        prev=ret
+        mmap[y][x]=ret
+        if y<50:
+            p1+=ret
+#    print("start,end",y,start,end)    
 
 printmap(mmap)
-
+print("its",its,start,end)
 print("1:",p1) 
 
-pp=defaultdict(int)
-for i,c in enumerate(inp):
-    pp[i] = c
+found=False
+y=rows
+ends={}
+while not found:
+    start,end=findse(y)
+    ends[y]=end
+#    print("se",y,start,end)
+    if end-start>=100:
+        if ends[y-99]>=start+100:
+            found=True
+    y+=1
 
-pp[0]=2
-
-run(pp,list(map(ord,list("A,B,A,B,C,C,B,A,C,A\nL,10,R,8,R,6,R,10\nL,12,R,8,L,12\nL,10,R,8,R,8\nn\n"))))
+print("se",start,end,ends[y-100])
+print("2: ",(start*10000)+y-100)
