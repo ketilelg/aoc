@@ -17,7 +17,7 @@ for l in inp:
 
     p2+=abs(int(pos/100))
     if pos<=0 and pos!=-v:
-            p2+=1
+        p2+=1
 
     pos=pos%100
     if pos==0:
