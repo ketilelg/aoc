@@ -14,7 +14,7 @@ def valid(number):
 def valid2(number):
     ss=str(number)
     ls=len(ss)
-    for i in range(1,ls):
+    for i in range(1,(ls//2)+1):
         if ls%i==0 and ss==ss[:i]*(ls//i):
             return False            
     return True
