@@ -15,13 +15,8 @@ def valid2(number):
     ss=str(number)
     ls=len(ss)
     for i in range(1,ls):
-        if ls%i==0: #mulig å dele opp i i lange deler
-            ts=ss[:i]
-            mm=True
-            for j in range(1,ls//i):
-                mm=mm and ss[j*i:(j+1)*i]==ts
-            if mm:
-                return False            
+        if ls%i==0 and ss==ss[:i]*(ls//i):
+            return False            
     return True
 
 for l in inp:
