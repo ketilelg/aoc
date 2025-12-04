@@ -4,22 +4,19 @@ import re
 from copy import deepcopy
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
-    inp = f.read().strip().split("\n")
+    fmap = list(map(list,f.read().strip().split("\n")))
 
 p1=p2=0
-
-fmap=[]
-for l in inp:
-    fmap.append(list(l))
 
 h=len(fmap)
 w=len(fmap[0])    
 
 def printmap(nmap):
-    for y in range(len(nmap)):
-        for x in range(len(nmap[0])):
-            print(nmap[y][x],end="")
-        print("-")
+    print("\033[H")
+    for l in nmap:
+        for c in l:  
+            print(c,end="")
+        print("")
 
 for x in range(w):
     for y in range(h):
@@ -37,7 +34,7 @@ np2=1
 newmap=deepcopy(fmap)
 while np2!=p2:
     np2=p2
-#    printmap(newmap)
+    printmap(newmap)
     for x in range(w):
         for y in range(h):
             if fmap[y][x]=="@":
