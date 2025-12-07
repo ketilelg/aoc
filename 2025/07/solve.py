@@ -10,9 +10,7 @@ p1=p2=0
 def timelines(l,p):
     global p1
     if (l+1)==len(inp): #veis ende, ikke noe mer å hente
-        return 1 #at vi har kommet hit antyder en timeline
-    elif (p<0) or (p>= len(inp[l])):
-        return 0 #utenfor kanten, ingen timeline her
+        return 1
     else:
         if inp[l+1][p]=="^":
             p1+=1 #sideeffekt i cachede rekursive funksjoner. <3
