@@ -1,6 +1,8 @@
 import sys
 from collections import defaultdict
 import re
+from functools import cache
+
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
