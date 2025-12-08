@@ -6,23 +6,16 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
 
 p1=p2=0
 
-def sq(v):
-    return v*v
-
-def dist(p1,p2):
-    return math.sqrt(sq(p1[0]-p2[0])+sq(p1[1]-p2[1])+sq(p1[2]-p2[2]))
-
 jb=[]
 for l in inp:
     jb.append((tuple(map(int,l.split(",")))))
-
 
 dists=[]
 for i in range(len(jb)):
     for j in range(i+1,len(jb)):
         if i!=j:
-            d=dist(jb[i],jb[j])
-            dists.append((d,jb[i],jb[j]))
+#            d=dist(jb[i],jb[j])
+            dists.append((math.dist(jb[i],jb[j]),jb[i],jb[j]))
 
 sets=[] #de forskjellige kretsene, liste av sets
 dists.sort()
