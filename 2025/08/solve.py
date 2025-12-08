@@ -13,9 +13,7 @@ for l in inp:
 dists=[]
 for i in range(len(jb)):
     for j in range(i+1,len(jb)):
-        if i!=j:
-#            d=dist(jb[i],jb[j])
-            dists.append((math.dist(jb[i],jb[j]),jb[i],jb[j]))
+        dists.append((math.dist(jb[i],jb[j]),jb[i],jb[j]))
 
 sets=[] #de forskjellige kretsene, liste av sets
 dists.sort()
