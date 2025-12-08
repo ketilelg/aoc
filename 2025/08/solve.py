@@ -27,41 +27,38 @@ for i in range(len(jb)):
 sets=[] #de forskjellige kretsene, liste av sets
 dists.sort()
 
+maxlen=0
 conns=0
 for i in dists: #mulige connections
     conns+=1
     used=False
-    # finn om denne koplingen er på plass allerede:
+    # finn om denne koplingen har et bein:
     for sn in range(len(sets)):
         s=sets[sn]
         if (i[1] in s) and (i[2] in s): #dette paret finnes i en krets, gir oss ikke noe nytt
             used=True
-            break
-        elif (i[1] in s) or (i[2] in s):
-            for sn2 in range(sn+1,len(sets)):
+        elif (i[1] in s) or (i[2] in s): #et bein finnes i det minste
+            for sn2 in range(sn+1,len(sets)): #kopler denne koplingen sammen to kretser?
                 s2=sets[sn2]
                 if (i[1] in s2) or (i[2] in s2):
                     s = s | s2 # kombiner
-                    sets[sn2]=set() #fjern 
+                    sets.pop(sn2) #fjern 
                     used=True
                     break                       
             s = s | {i[1],i[2]}
             sets[sn]=s
+            if len(s)>maxlen:
+                maxlen=len(s)
             used=True
             break
     if not used:
         sets.append({i[1],i[2]})
 
-    lens=[]
-    for s in sets:
-        lens.append(len(s))
 
     if conns==1000:
-        lens.sort()
-        p1=math.prod(lens[-3:])
-
+        p1=math.prod(sorted([len(l) for l in sets])[-3:])
     #see if we have all connected..:
-    if max(lens)==len(jb):
+    if maxlen==len(jb):
         p2=i[1][0]*i[2][0]
         break
 
