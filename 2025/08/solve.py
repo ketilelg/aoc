@@ -53,8 +53,5 @@ for i in dists: #mulige connections
         p2=i[1][0]*i[2][0]
         break
 
-lens=[]
-
-
 print("1:",p1)
 print("2:",p2)
