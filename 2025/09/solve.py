@@ -94,34 +94,9 @@ for i in range(len(tiles)):
         rects.append((a,sx,sy,ex,ey))
         if a > p1:
             p1=a
-# # første ide: sjekk alle punkter rundt perimeter, se om de er på innsiden
-# for r in sorted(rects,reverse=True):
-#     a=r[0]
-#     sx=r[1]
-#     sy=r[2]
-#     ex=r[3]
-#     ey=r[4]
-# #    print("testing",a,sx,sy,ex,ey)
-#     ins=True
-#     for x in range(sx,ex):
-#         if not inside(x+0.5,sy+0.5) or not inside(x+0.5,sy+0.5):
-#             ins=False
-#             break
-#     for y in range(sy,ey):
-#         if not inside(sx+0.5,y+0.5) or not inside(ex-0.5,y+0.5):
-#             ins=False
-#             break
-#     if ins:
-#         p2=a                    
-#         break
 
-# ny tanke: se om hjørnene er på innsiden, og at linjene ikke krysser andre linjer. 
 for r in sorted(rects,reverse=True):
-    a=r[0]
-    sx=r[1]
-    sy=r[2]
-    ex=r[3]
-    ey=r[4]
+    a,sx,sy,ex,ey=r 
     if lineinside(sx+0.5,sy+0.5,ex-0.5,sy+0.5) and lineinside(sx+0.5,ey-0.5,ex-0.5,ey-0.5) and lineinside(sx+0.5,sy+0.5,sx+0.5,ey-0.5) and lineinside(ex-0.5,sy+0.5,ex-0.5,ey-0.5): 
         p2=a                    
         break
