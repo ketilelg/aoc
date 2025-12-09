@@ -30,6 +30,7 @@ for l in inp:
 
 
 lines=[]
+vlines=[]
 for i in range(len(tiles)):
     nn=tiles[i-1] #stilig måte å begå løkke. takk til Peder
     sx=tiles[i][0]
@@ -38,28 +39,10 @@ for i in range(len(tiles)):
     ny=nn[1]
     if sx!=nx: #vi trenger kun horisontale linjer
         lines.append(((sx,sy),(nx,ny)))
-
+    else:
+        vlines.append(((sx,sy),(nx,ny)))
 lines.sort(key=lambda x: x[0][1])
-
-# for l in lines:
-#     print("l",l)
-# def inline(lines,x1,y1,x2,y2): #overlapper rektangelet med en linje?
-#     for l in lines:
-#         sx=min(l[0][0],l[1][0])
-#         ex=max(l[0][0],l[1][0])
-#         sy=min(l[0][1],l[1][1])
-#         ey=max(l[0][1],l[1][1])
-#         if ((((x1 >= sx) and (x1 <= ex)) or ((x2>=sx) and ((x2 <= ex))) or ((x1 < sx) and (x2 > ex))) and 
-#             (((y1 >= sy) and (y1 <= ey)) or ((y2>=ey) and ((y2 <= ey))) or ((y1 < sy) and (y2 > ey)))):
-#             return True
-#     return False
-
-# def online(l,x,y): #is x,y on line?
-#     sx=min(l[0][0],l[1][0])
-#     ex=max(l[0][0],l[1][0])
-#     sy=min(l[0][1],l[1][1])
-#     ey=max(l[0][1],l[1][1])
-#     return ((x>=sx) and (x<=ex) and (y>=sy) and (y<=ey))
+vlines.sort(key=lambda x: x[0][0])
 
 @cache
 def inside(x,y): #er x,y innenfor perimeteren?
@@ -74,6 +57,30 @@ def inside(x,y): #er x,y innenfor perimeteren?
             break
     return nh%2==1
 
+def lineinside(lsx,lsy,lex,ley): #er linjen inne eller ute?
+    if not inside(lsx,lsy):
+        return False
+    if not inside(lex,ley):
+        return False
+    if lsy==ley: #linje er horisontal, se etter vertikale kryss
+        for l in vlines:
+            x=l[0][0]
+            if x>lex:
+                break
+            sy=min(l[0][1],l[1][1])
+            ey=max(l[0][1],l[1][1])
+            if (lsx<=x) and (lex>=x) and (lsy>=sy) and (ley<=ey):
+                return False
+    else: #linja er vertikal, se etter kryss med horisontale linjer
+        for l in lines:
+            y=l[0][1]
+            if y>ley:
+                break
+            sx=min(l[0][0],l[1][0])
+            ex=max(l[0][0],l[1][0])
+            if (lsx<=ex) and (lex>=sx) and (lsy<=y) and (ley>=y):
+                return False
+    return True
 
 rects=[]
 for i in range(len(tiles)):
@@ -86,26 +93,38 @@ for i in range(len(tiles)):
         rects.append((a,sx,sy,ex,ey))
         if a > p1:
             p1=a
+# # første ide: sjekk alle punkter rundt perimeter, se om de er på innsiden
+# for r in sorted(rects,reverse=True):
+#     a=r[0]
+#     sx=r[1]
+#     sy=r[2]
+#     ex=r[3]
+#     ey=r[4]
+# #    print("testing",a,sx,sy,ex,ey)
+#     ins=True
+#     for x in range(sx,ex):
+#         if not inside(x+0.5,sy+0.5) or not inside(x+0.5,sy+0.5):
+#             ins=False
+#             break
+#     for y in range(sy,ey):
+#         if not inside(sx+0.5,y+0.5) or not inside(ex-0.5,y+0.5):
+#             ins=False
+#             break
+#     if ins:
+#         p2=a                    
+#         break
 
+# ny tanke: se om hjørnene er på innsiden, og at linjene ikke krysser andre linjer. 
 for r in sorted(rects,reverse=True):
     a=r[0]
     sx=r[1]
     sy=r[2]
     ex=r[3]
     ey=r[4]
-#    print("testing",a,sx,sy,ex,ey)
-    ins=True
-    for x in range(sx,ex):
-        if not inside(x+0.5,sy+0.5) or not inside(x+0.5,sy+0.5):
-            ins=False
-            break
-    for y in range(sy,ey):
-        if not inside(sx+0.5,y+0.5) or not inside(ex-0.5,y+0.5):
-            ins=False
-            break
-    if ins:
+    if lineinside(sx+0.5,sy+0.5,ex-0.5,sy+0.5) and lineinside(sx+0.5,ey-0.5,ex-0.5,ey-0.5) and lineinside(sx+0.5,sy+0.5,sx+0.5,ey-0.5) and lineinside(ex-0.5,sy+0.5,ex-0.5,ey-0.5): 
         p2=a                    
         break
+
 
 print("1:",p1)
 print("2:",p2)
