@@ -57,6 +57,7 @@ def inside(x,y): #er x,y innenfor perimeteren?
             break
     return nh%2==1
 
+@cache
 def lineinside(lsx,lsy,lex,ley): #er linjen inne eller ute?
     if not inside(lsx,lsy):
         return False
