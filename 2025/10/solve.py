@@ -40,24 +40,31 @@ for l in inp:
         if found:
             break
     p1+=best
+
     found=False     
     jtarget=list(map(int,jolts[1:-1].split(",")))
-    for n in itertools.count(1):
+
+    intb=[]
+    for b in buttons:
+        intb.append(tuple(map(int,b[1:-1].split(","))))
+    print("ii",intb)
+    for n in itertools.count(max(jtarget)):
+#        ll=itertools.combinations_with_replacement(buttons,n)
         print("trying",n)
-        ll=itertools.combinations_with_replacement(buttons,n)
-        for b in ll:
-            jj=[0]*(len(jtarget))
-            for p in range((len(jj))):
-                jj[p]="".join(b).count(str(p))
-            if jj==jtarget:
-                print("ff",n)
-                found=True
-                p2+=n
-                break              
-            else:
-                for i in range(len(jj)):
-                    if jj[i]>jtarget[i]:
-                        break
+
+#         for b in ll:
+#             jj=[0]*(len(jtarget))
+#             ss="".join(b)
+# #            print("bb",len(ss))
+#             for p in range((len(jj))):
+#                 jj[p]=ss.count(str(p))
+#             if jj==jtarget:
+#                 print("ff",n)
+#                 found=True
+#                 p2+=n
+#                 break              
+        if n>10:
+            found=True
         if found:
             break
 
