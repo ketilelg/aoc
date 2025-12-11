@@ -3,7 +3,7 @@ from collections import defaultdict
 import re
 from functools import cache
 import itertools
-
+from copy import deepcopy
 
 with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
     inp = f.read().strip().split("\n")
@@ -55,75 +55,92 @@ for l in inp:
     p1+=best
 
     found=False     
-    ujtarget=list(map(int,jolts[1:-1].split(",")))
+    jtarget=list(map(int,jolts[1:-1].split(",")))
 
-    uintb=[]
+    intb=[]
     for b in buttons:
-        uintb.append(list(map(int,b[1:-1].split(","))))
-    ujbset=[]
-    for j in range(len(ujtarget)):
+        intb.append(list(map(int,b[1:-1].split(","))))
+    jbset=[]
+    for j in range(len(jtarget)):
         bs=[]
-        for bi,b in enumerate(uintb):
+        for bi,b in enumerate(intb):
             if j in b:
                 bs.append(bi)
-        ujbset.append(bs)
-    print("ii",uintb,"\n ",ujtarget,"\n ",ujbset)
+        jbset.append(bs)
+    print("ii",intb,"\n ",jtarget,"\n ",jbset,"\n\n")
 
-    sorta=[]
-    smap={}
-    for i,j in enumerate(ujbset):
-        sorta.append([len(j),i,ujtarget[i],j])
-    for ss in sorta:
-        print("  iii",ss)
-    sorta.sort(reverse=True)
-    for i,ss in enumerate(sorta):
-        smap[sorta[i][1]]=i
-        print("  iis",ss)
-    intb=[]
-    print("  sm",smap)
-    for i,b in enumerate(uintb):
-        print(" b",i,b)
-        nb=[]
-        for bb in b:
-            nb.append(smap[bb])
-        intb.append(nb)
-    jtarget=[]
-    jbset=[]
-    for ss in sorta:
-        jtarget.append(ss[2])
-        jbset.append(ss[3])
 
     val=[0]*len(jtarget)
 
-    def testp(jtarget,jbset,pos,np,v):
-        # må ha med trykk brukt, sånn at vi ikke prøver å bruke fler
-        # i neste runde. (dvs: knapper som ikke kan testes nå, fordi ferdigtrykket)
-        print("testp",pos,v,np,jbset[pos])
+    # gjenstår: kjør fra lengst keyset og ned.. vi 
+
+    def testp(jtarget,j,pos,np,v):
+        print("testp",pos,"v",v,"np",np,"j",j)
+        jbset=deepcopy(j)
         if pos>=len(jtarget):
             return
-        for i in range(pos):
-            for b in jbset[i]:
-                if b in jbset[pos]:
-                    jbset[pos].remove(b)
-        for ps in perms(jtarget[pos]-v[pos],len(jbset[pos])):
+        # if pos>0: #noe har skjedd, fjern knapper vi ikke kan bruke fra jbset
+        #     i=pos-1
+        #     for b in j[i]:
+        #         for jj,js in enumerate(jbset):
+        #             if b in js:
+        #                 jbset[jj].remove(b)
+        longest=0 #lengste keyset
+        for ji,jj in enumerate(jbset):
+#            print(" ll",ji,jj)
+            if len(jj)>longest:
+                longest=ji
+        print("pos",longest)
+        pos=longest
+#        maxp=1000000
+        # for b in jbset[pos]:
+        #     print("  fmp",b)
+        #     for j in intb[b]:
+        #         print("    ffmp",j,jtarget[j],v[j])
+        #         if (jtarget[j]-v[j]) < maxp:
+        #             maxp=jtarget[j]-v[j]
+        maxp=jtarget[pos]-v[pos]
+        print("maxp",maxp,pos,jbset,v)
+#        for ps in perms(jtarget[pos]-v[pos],len(jbset[pos])):
+        for ps in perms(maxp,len(jbset[pos])):
             npress=np
             over=False
             val=v.copy()
-#            print("ps",pos,ps,val,jbset[pos])
+            print("ps",pos,ps,val,jbset[pos])
             for i,p in enumerate(ps): #[1,2] - first button 1, second 2.  
- #               print(" vv",jbset[pos][i],val,pos,i,p)
+#                print(" vv",jbset[pos][i],val,pos,i,p)
                 for b in intb[jbset[pos][i]]:
                     val[b]+=p
- #                   print("  vvv",val,b,p)
+#                    print("  vvv",val,b,p)
                     if val[b]>jtarget[b]:
                         over=True
                 npress+=p
-            print("val",pos,val)
+            if over:
+                continue
+            print("val",pos,val,jtarget)
             if val==jtarget:
-                print("hoihoi",pos,npress,val)
+                print("hoihoival",pos,npress,val)
             # på tide med rekursjon:
-            elif not over:
-                testp(jtarget,jbset,pos+1,npress,val)
+            else:
+                # remove used keybs
+                for b in j[pos]:
+                    jb=deepcopy(jbset)
+                    for jj,js in enumerate(jbset):
+                        if b in js:
+                            jb[jj].remove(b)
+
+                testp(jtarget,jb,pos,npress,val)
+                # pp=0
+                # while (pp<len(val)) and (val[pp]==jtarget[pp]):
+                #     pp+=1
+                # if pp==len(val):
+                #     print("valhoi2",val)
+                # elif pp<len(val):
+                #     print("-rec",pp,val,jbset)
+                #     testp(jtarget,jbset,pp,npress,val)
+                # else:
+                #     print("wtf??")
+                #     exit()
 
     testp(jtarget,jbset,0,0,val)
 #    while True:
