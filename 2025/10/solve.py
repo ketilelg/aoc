@@ -10,6 +10,19 @@ with open(sys.argv[1] if (len(sys.argv) == 2) else 'input') as f:
 
 p1=p2=0
 
+def perms(sum, k): #stjælt fra nettet. genererer liste av alle permutasjoner
+    if k < 1:
+        return []
+    if k == 1:
+        return [(sum,)]
+    if k == 2:
+        return [(i,sum-i) for i in range(0, sum-k+3)]
+    
+    return [tup[:-1] + ab for tup in perms(sum, k-1) for ab in perms(tup[-1], 2)]
+
+#print("pp",perms(4,3))
+#exit()
+
 for l in inp:
 #    print("l",l.split(" "))
     ls=l.split(" ")
@@ -42,31 +55,80 @@ for l in inp:
     p1+=best
 
     found=False     
-    jtarget=list(map(int,jolts[1:-1].split(",")))
+    ujtarget=list(map(int,jolts[1:-1].split(",")))
 
-    intb=[]
+    uintb=[]
     for b in buttons:
-        intb.append(tuple(map(int,b[1:-1].split(","))))
-    print("ii",intb)
-    for n in itertools.count(max(jtarget)):
-#        ll=itertools.combinations_with_replacement(buttons,n)
-        print("trying",n)
+        uintb.append(list(map(int,b[1:-1].split(","))))
+    ujbset=[]
+    for j in range(len(ujtarget)):
+        bs=[]
+        for bi,b in enumerate(uintb):
+            if j in b:
+                bs.append(bi)
+        ujbset.append(bs)
+    print("ii",uintb,"\n ",ujtarget,"\n ",ujbset)
 
-#         for b in ll:
-#             jj=[0]*(len(jtarget))
-#             ss="".join(b)
-# #            print("bb",len(ss))
-#             for p in range((len(jj))):
-#                 jj[p]=ss.count(str(p))
-#             if jj==jtarget:
-#                 print("ff",n)
-#                 found=True
-#                 p2+=n
-#                 break              
-        if n>10:
-            found=True
-        if found:
-            break
+    sorta=[]
+    smap={}
+    for i,j in enumerate(ujbset):
+        sorta.append([len(j),i,ujtarget[i],j])
+    for ss in sorta:
+        print("  iii",ss)
+    sorta.sort(reverse=True)
+    for i,ss in enumerate(sorta):
+        smap[sorta[i][1]]=i
+        print("  iis",ss)
+    intb=[]
+    print("  sm",smap)
+    for i,b in enumerate(uintb):
+        print(" b",i,b)
+        nb=[]
+        for bb in b:
+            nb.append(smap[bb])
+        intb.append(nb)
+    jtarget=[]
+    jbset=[]
+    for ss in sorta:
+        jtarget.append(ss[2])
+        jbset.append(ss[3])
+
+    val=[0]*len(jtarget)
+
+    def testp(jtarget,jbset,pos,np,v):
+        # må ha med trykk brukt, sånn at vi ikke prøver å bruke fler
+        # i neste runde. (dvs: knapper som ikke kan testes nå, fordi ferdigtrykket)
+        print("testp",pos,v,np,jbset[pos])
+        if pos>=len(jtarget):
+            return
+        for i in range(pos):
+            for b in jbset[i]:
+                if b in jbset[pos]:
+                    jbset[pos].remove(b)
+        for ps in perms(jtarget[pos]-v[pos],len(jbset[pos])):
+            npress=np
+            over=False
+            val=v.copy()
+#            print("ps",pos,ps,val,jbset[pos])
+            for i,p in enumerate(ps): #[1,2] - first button 1, second 2.  
+ #               print(" vv",jbset[pos][i],val,pos,i,p)
+                for b in intb[jbset[pos][i]]:
+                    val[b]+=p
+ #                   print("  vvv",val,b,p)
+                    if val[b]>jtarget[b]:
+                        over=True
+                npress+=p
+            print("val",pos,val)
+            if val==jtarget:
+                print("hoihoi",pos,npress,val)
+            # på tide med rekursjon:
+            elif not over:
+                testp(jtarget,jbset,pos+1,npress,val)
+
+    testp(jtarget,jbset,0,0,val)
+#    while True:
+#        for i,jj in enumerate(jtarget):
+
 
 
 print("1:",p1)
